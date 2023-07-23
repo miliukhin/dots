@@ -1,0 +1,49 @@
+#!/bin/sh
+
+# Switch between day and night color scheme
+
+DAY_FILE="$HOME/.config/x11/colors/gruvbox_light.xresources"
+NIGHT_FILE="$HOME/.config/x11/xresources"
+
+xrdb "$HOME/.config/x11/xresources"
+
+export WM="dwm"
+wmpid(){ # This function is needed if there are multiple instances of the window manager.
+	tree="$(pstree -ps $$)"
+	tree="${tree#*"$WM"(}"
+	echo "${tree%%)*}"
+}
+
+switch_to_day() {
+	setbg "$HOME/Pictures/wallpapers/gruvbox_light"
+	xrdb -merge "$DAY_FILE"
+
+	pywalfox dark
+}
+
+switch_to_night() {
+	setbg "$HOME/Pictures/wallpapers/sleepy"
+	xrdb -merge "$NIGHT_FILE"
+
+	pywalfox dark
+}
+
+while true
+do
+	# Get the current hour in 24-hour format
+	current_hour=$(date +%H)
+	current_hour=${current_hour#0}
+
+	# Determine if it's daytime or nighttime based on the current hour
+	if ( current_hour >= 11 && current_hour lt 17 ); then
+ 	   	switch_to_day
+	else
+		switch_to_night
+	fi
+
+	# kill -HUP "$(wmpid)"
+	pywalfox update
+	pidof dwm >/dev/null && xdotool key super+F5
+
+	sleep 1h
+done

@@ -21,33 +21,29 @@ Plug 'vimwiki/vimwiki'
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-commentary'
 Plug 'ap/vim-css-color'
-Plug 'ivanesmantovich/xkbswitch.nvim'
-
-Plug 'ycm-core/YouCompleteMe'
-Plug 'cdelledonne/vim-cmake'
-Plug 'skywind3000/asyncrun.vim'
-Plug 'habamax/vim-godot'
-Plug 'echuraev/translate-shell.vim'
+Plug 'ivanesmantovich/xkbswitch.nvim' " so I don't have to switch language manually when exiting insert mode
+" Literally bloat
+	Plug 'ycm-core/YouCompleteMe'
+	Plug 'cdelledonne/vim-cmake'
+	Plug 'skywind3000/asyncrun.vim'
+	Plug 'habamax/vim-godot'
+	Plug 'echuraev/translate-shell.vim'
 " Guitar
-Plug 'onjin/vim-guitar-tab-syntax'
-" Plug 'matt-snider/vim-guitar-tab'
-
+	Plug 'onjin/vim-guitar-tab-syntax'
+	" Plug 'matt-snider/vim-guitar-tab'
+	" Plug 'https://github.com/kanderoo/vim-tabs'
 " sc-im
-Plug 'mipmip/vim-scimark'
-" Plug 'mbajobue/scim-latex-tables'
-" Plug 'gaoDean/vimscim.nvim'
-
+	Plug 'mipmip/vim-scimark'
+	" Plug 'mbajobue/scim-latex-tables'
+	" Plug 'gaoDean/vimscim.nvim'
 " Misc
-" Plug 'vim-airline/vim-airline-themes'
-Plug 'dylanaraps/wal.vim'
-Plug 'nekonako/xresources-nvim'
+	Plug 'dylanaraps/wal.vim'
+	" Plug 'vim-airline/vim-airline-themes'
+	" Plug 'nekonako/xresources-nvim'
 call plug#end()
 
 " let g:airline_theme='atomic'
 
-" highlight Pmenu ctermbg=8
-" highlight SpellBad ctermbg=1
-" highlight SpellCap ctermbg=4
 colorscheme wal
 " colorscheme xresources
 
@@ -64,7 +60,7 @@ set noshowcmd
 set ignorecase
 set smartcase
 set linebreak
-set cursorline
+" set cursorline
 " set incsearch
 " set complete+=kspell " 'ctrl-x s' ctrl-n[ext] ctrl-p[revious] complete words
 
@@ -117,7 +113,7 @@ set cursorline
 	map <leader>s :!clear && shellcheck -x %<CR>
 
 " Open my bibliography file in split
-	" map <leader>b :vsp<space>$BIB<CR> <++>
+	map <leader>b :vsp<space>$BIB<CR>
 	map <leader>r :vsp<space>$REFER<CR>
 
 " Replace all is aliased to S.
@@ -201,8 +197,8 @@ silent! source ~/.config/nvim/shortcuts.vim
 let g:cmake_link_compile_commands = 1 " for coc ??
 let g:cmake_root_markers = ['CMakeLists']
 " let g:cmake_build_dir_location = '.'
-nmap <leader>g :CMakeGenerate<cr>
-nmap <leader>b :CMakeBuild<cr>
+nmap <leader>cg :CMakeGenerate<cr>
+nmap <leader>cb :CMakeBuild<cr>
 
 " Godot
 
