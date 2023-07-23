@@ -1,0 +1,173 @@
+!! Transparency (0-1):
+*.alpha: .9
+*.dpi:		154
+*.dpi:		160
+!! Set a default font and font size as below:
+*.font: monospace:size=10:antialias=true:autohint=true;
+
+/* #include "colors/lamp_remake.xresources" */
+/* #include "lantern/lantern.xresources" */
+/* #include "colors/gruvbox_light.xresources" */
+/* #include "colors/lamp.xresources" */
+
+/* name		dark	light */
+/* black	0	8 */
+/* red		1	9 */
+/* green	2	10 */
+/* yellow	3	11 */
+/* blue		4	12 */
+/* purple	5	13 */
+/* cyan		6	14 */
+/* white	7	15 */
+
+! lantern
+*.color0:       #090808
+*.color1:       #c74918
+*.color2:       #909a40
+*.color3:       #cb8829
+*.color4:       #8a957d
+*.color5:       #be5a5d
+*.color6:       #7a9a7a
+*.color7:       #b0a473
+*.color8:       #8f7f70
+*.color9:       #fc5d1f
+*.color10:      #cecd2f
+*.color11:      #ffab33
+*.color12:      #b0bd90
+*.color13:      #e68f77
+*.color14:      #b0ce8f
+*.color15:      #f5df99
+*.background:	#0f0f0f
+! high contrast
+! *.background:   #090808
+*.foreground:   #f5df99
+*.cursorColor:  #f5df99
+
+/* ! alduin */
+/* *.color0:	#1c1c1c */
+/* *.color1:	#af5f5f */
+/* *.color2:	#87875f */
+/* *.color3:	#dfaf87 */
+/* *.color4:	#878787 */
+/* *.color5:	#875f5f */
+/* *.color6:	#87afaf */
+/* *.color7:	#dfdfaf */
+/* *.color8:	#878787 */
+/* *.color9:	#af5f5f */
+/* *.color10:	#87875f */
+/* *.color11:	#dfaf87 */
+/* *.color12:	#878787 */
+/* *.color13:	#875f5f */
+/* *.color14:	#87afaf */
+/* *.color15:	#dfdfaf */
+/* *.color256:	#1c1c1c */
+/* *.color257:	#dfdfaf */
+/* *.background:	#1c1c1c */
+
+/* !! gruvbox: */
+/* *.color0: #1d2021 */
+/* *.color1: #cc241d */
+/* *.color2: #98971a */
+/* *.color3: #d79921 */
+/* *.color4: #458588 */
+/* *.color5: #b16286 */
+/* *.color6: #689d6a */
+/* *.color7: #a89984 */
+/* *.color8: #928374 */
+/* *.color9: #fb4934 */
+/* *.color10: #b8bb26 */
+/* *.color11: #fabd2f */
+/* *.color12: #83a598 */
+/* *.color13: #d3869b */
+/* *.color14: #8ec07c */
+/* *.color15: #ebdbb2 */
+/* *.color256: #1d2021 */
+/* *.color257: #ebdbb2 */
+/* *.background: #1c1c1c */
+/* /1* *.background: #1d1915 *1/ */
+/* /1* *.background: #1d2021 *1/ */
+/* *.foreground: #ebdbb2 */
+/* *.cursorColor: #ebdbb2 */
+
+/* !! gruvbox light: */
+/* *.color0: #fbf1c7 */
+/* *.color1: #cc241d */
+/* *.color2: #98971a */
+/* *.color3: #d79921 */
+/* *.color4: #458588 */
+/* *.color5: #b16286 */
+/* *.color6: #689d6a */
+/* *.color7: #7c6f64 */
+/* *.color8: #928374 */
+/* *.color9: #9d0006 */
+/* *.color10: #79740e */
+/* *.color11: #b57614 */
+/* *.color12: #076678 */
+/* *.color13: #8f3f71 */
+/* *.color14: #427b58 */
+/* *.color15: #3c3836 */
+/* *.background: #fbf1c7 */
+/* *.foreground: #282828 */
+/* st.alpha: 0.9 */
+
+/* !! xterm */
+/* *.color0:   #000000 */
+/* *.color1:   #cd0000 */
+/* *.color2:   #00cd00 */
+/* *.color3:   #cdcd00 */
+/* *.color4:   #0000cd */
+/* *.color5:   #cd00cd */
+/* *.color6:   #00cdcd */
+/* *.color7:   #e5e5e5 */
+/* *.color8:   #4d4d4d */
+/* *.color9:   #ff0000 */
+/* *.color10:  #00ff00 */
+/* *.color11:  #ffff00 */
+/* *.color12:  #0000ff */
+/* *.color13:  #ff00ff */
+/* *.color14:  #00ffff */
+/* *.color15:  #aabac8 */
+/* *.background:   #000000 */
+/* *.foreground:   #ccc */
+
+/* *.background: .color0 */
+/* *.color256: 0#1d2021 */
+/* *.color257: 15#ebdbb2 */
+
+/* ! ┏┏┓o┳━┓┓━┓┏┏┓┳━┓ */
+/* ! ┃┃┃┃┃━┫┗━┓┃┃┃┃━┫ */
+/* ! ┛ ┇┇┛ ┇━━┛┛ ┇┛ ┇ */
+/* ! miasma by xero (https://x-e.ro) */
+/* ! add this to your ~/.Xresources or import this */
+/* ! by adding: #include "path/to/miasma.xresources" */
+/* *.foreground:   #c2c2b0 */
+/* *.background:   #222222 */
+/* *.cursorColor:  #5f875f */
+/* ! black */
+/* *.color0:       #222222 */
+/* *.color8:       #666666 */
+/* ! red */
+/* *.color1:       #685742 */
+/* *.color9:       #685742 */
+/* ! green */
+/* *.color2:       #5f875f */
+/* *.color10:      #5f875f */
+/* ! yellow */
+/* *.color3:       #B36D43 */
+/* *.color11:      #B36D43 */
+/* ! blue */
+/* *.color4:       #78824B */
+/* *.color12:      #78824b */
+/* ! magenta */
+/* *.color5:       #bb7744 */
+/* *.color13:      #bb7744 */
+/* ! cyan */
+/* *.color6:       #bb7744 */
+/* *.color14:      #C9A554 */
+/* ! white */
+/* *.color7:       #D7C483 */
+/* *.color15:      #D7C483 */
+/* ! others */
+/* URxvt.colorIT:  #5f875f */
+/* URxvt.colorBD:  #5f875f */
+/* URxvt.colorUL:  #5f875f */
