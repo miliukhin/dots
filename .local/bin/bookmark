@@ -1,0 +1,19 @@
+#!/bin/sh
+
+if [ $1 = clipboard ]; then
+	bookmark="$(xclip -o)"
+	file="$HOME/.local/share/larbs/snippets"
+elif [ $1 = song ]; then
+	# useful when listening to a web radio
+	bookmark="$(mpc | sed "/^volume:/d;s/\\&/&amp;/g;s/\\[paused\\].*/⏸/g;/\\[playing\\].*/d;/^ERROR/Q")"
+	file="$HOME/.local/share/larbs/songlog"
+else
+	exit 1
+fi
+
+if grep -q "^$bookmark$" "$file"; then
+	notify-send "Добре, але..." "Це вже записане!"
+else
+	notify-send "Додана закладка!" "$bookmark записана у файл"
+	echo "$bookmark" >> "$file"
+fi

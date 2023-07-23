@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# Якщо повідомлень багато то потрібне може не завантажитись. Рідко, але стається.
+# Також було б добре позбутися залежності від телеграму (через нього, до речі, й така нестабільність)
+
+[ -z "$1" ] && echo "Вкажіть область у називному відмінку без слова \"область\".
+Можна скопіювати звідси https://telegram.me/s/air_alert_ua" && exit
+
+oblast="$1"
+map="${XDG_CACHE_HOME:-$HOME/.cache}/alertmap.png"
+hist="${XDG_CACHE_HOME:-$HOME/.cache}/alert"
+now=$(curl -sL https://telegram.me/s/air_alert_ua | grep "$oblast область" | tail -1)
+
+[ "$(tail -1 "$hist")" = "$now" ] || (echo "$now" >> "$hist" && notify-send -u critical "$(echo "$now" | html2text | head -n 1)")
+
+tail -1 "$hist" | grep "тривога" >> /dev/null && echo 📢 || echo 🔱
+
+case $BLOCK_BUTTON in
+	1) notify-send "Модуль повітряної тривоги" "Завантаження мапи..." & \
+		curl -sL "https://alerts.com.ua/map.png" > "$map" && setsid sxiv "$map" ;;
+	2) notify-send "" ;;
+	3) notify-send "" ;;
+	6) "$TERMINAL" -e "$EDITOR" "$0" ;;
+esac;
