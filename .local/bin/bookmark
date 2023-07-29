@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ $1 = clipboard ]; then
-	bookmark="$(xclip -o)"
+	bookmark="$(xclip -selection clipboard -o)"
 	file="$HOME/.local/share/larbs/snippets"
 elif [ $1 = song ]; then
 	# useful when listening to a web radio

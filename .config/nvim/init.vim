@@ -16,7 +16,7 @@ Plug 'tpope/vim-surround'
 Plug 'preservim/nerdtree'
 Plug 'junegunn/goyo.vim'
 Plug 'jreybert/vimagit'
-" Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 Plug 'vimwiki/vimwiki'
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-commentary'
@@ -38,11 +38,8 @@ Plug 'ivanesmantovich/xkbswitch.nvim' " so I don't have to switch language manua
 	" Plug 'gaoDean/vimscim.nvim'
 " Misc
 	Plug 'dylanaraps/wal.vim'
-	" Plug 'vim-airline/vim-airline-themes'
 	" Plug 'nekonako/xresources-nvim'
 call plug#end()
-
-" let g:airline_theme='atomic'
 
 colorscheme wal
 " colorscheme xresources
@@ -131,6 +128,9 @@ set linebreak
 " Ensure files are read as what I want:
 	let g:vimwiki_ext2syntax = {'.Rmd': 'markdown', '.rmd': 'markdown','.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
 	map <leader>v :VimwikiIndex<CR>
+	map <leader>vd :VimwikiDiaryIndex<CR>
+	map <leader>vdm :VimwikiMakeDiaryNote<CR>
+	map <leader>vdg :VimwikiDiaryGenerateLinks<CR>
 	let g:vimwiki_list = [{'path': '~/.local/share/nvim/vimwiki', 'syntax': 'markdown', 'ext': '.md'}]
 	autocmd BufRead,BufNewFile /tmp/calcurse*,~/.calcurse/notes/* set filetype=markdown
 	autocmd BufRead,BufNewFile *.ms,*.me,*.mom,*.man set filetype=groff

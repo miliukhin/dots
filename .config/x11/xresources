@@ -1,9 +1,9 @@
 !! Transparency (0-1):
 *.alpha: .9
 *.dpi:		154
-*.dpi:		160
 !! Set a default font and font size as below:
 *.font: monospace:size=10:antialias=true:autohint=true;
+! st.termname: st-256color
 
 /* #include "colors/lamp_remake.xresources" */
 /* #include "lantern/lantern.xresources" */
@@ -26,6 +26,7 @@
 *.color2:       #909a40
 *.color3:       #cb8829
 *.color4:       #8a957d
+*.color4:       #6a857d
 *.color5:       #be5a5d
 *.color6:       #7a9a7a
 *.color7:       #b0a473

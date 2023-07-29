@@ -7,12 +7,12 @@
 # otherwise it opens link in browser.
 
 if [ -z "$1" ]; then
-	url="$(xclip -o)"
+	notify-send "no url given"
 else
 	url="$1"
 fi
 
-if [[ "$url" != "" ]]; then # чо нє
+if [[ "$url" != "" ]]; then
 
 case "$url" in
 	*mkv|*webm|*mp4|*youtube.com/watch*|*youtube.com/playlist*|*youtube.com/shorts*|*youtu.be*|*hooktube.com*|*bitchute.com*|*videos.lukesmith.xyz*|*odysee.com*)
