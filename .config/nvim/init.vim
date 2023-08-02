@@ -23,7 +23,7 @@ Plug 'tpope/vim-commentary'
 Plug 'ap/vim-css-color'
 Plug 'ivanesmantovich/xkbswitch.nvim' " so I don't have to switch language manually when exiting insert mode
 " Literally bloat
-	Plug 'ycm-core/YouCompleteMe'
+	" Plug 'ycm-core/YouCompleteMe'
 	Plug 'cdelledonne/vim-cmake'
 	Plug 'skywind3000/asyncrun.vim'
 	Plug 'habamax/vim-godot'
@@ -246,4 +246,7 @@ lua require('xkbswitch').setup()
 	" au BufRead,BufNewFile *.tab set filetype=guitartab
 
 " toggle concealment
-	nnoremap <Leader>a :let &cole=(&cole == 2) ? 0 : 2 <bar> echo 'conceallevel ' . &cole <CR>
+	nnoremap <leader>a :let &cole=(&cole == 2) ? 0 : 2 <bar> echo 'conceallevel ' . &cole <CR>
+
+let g:trans_default_direction=":uk"
+nmap <leader>t :Trans<cr>
