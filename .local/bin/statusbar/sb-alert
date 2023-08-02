@@ -11,7 +11,7 @@ map="${XDG_CACHE_HOME:-$HOME/.cache}/alertmap.png"
 hist="${XDG_CACHE_HOME:-$HOME/.cache}/alert"
 now=$(curl -sL https://telegram.me/s/air_alert_ua | grep "$oblast область" | tail -1)
 
-[ "$(tail -1 "$hist")" = "$now" ] || (echo "$now" >> "$hist" && notify-send -u critical "$(echo "$now" | html2text | head -n 1)")
+[ "$(tail -1 "$hist")" = "$now" ] || (echo "$now" >> "$hist" && notify-send -u critical "$(echo "$now" | sed -e 's/<[^>]*>//g; s/\..*//g' | head -n 1)")
 
 tail -1 "$hist" | grep "тривога" >> /dev/null && echo 📢 || echo 🔱
 
