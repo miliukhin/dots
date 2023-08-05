@@ -58,12 +58,10 @@ case "$ext" in
 				-V monofont="Fantasque Sans Mono" \
 				-V linkcolor:gray \
 				-V lang=uk-UA -o "$base".pdf "$file"
-				#-V mainfont="Fantasque Sans Mono" \
-				#-V monofont="DejaVu Sans Mono" \
 
- #Fira Sans Open Sans
 			elif [ "$type" = "xelatex" ]; then
-			pandoc -s -f markdown --pdf-engine=xelatex \
+			pandoc -f markdown \
+				--pdf-engine=xelatex \
 				--template template_2 \
 				--pdf-engine-opt=-shell-escape \
 				-V geometry:a4paper \
@@ -74,18 +72,16 @@ case "$ext" in
 				-V monofont="Liberation Mono" \
 				-V fontsize=12pt -V lang=uk-UA -o "$base".pdf "$file"
 				# --filter pandoc-crossref \
-				# gfm --- github style markdown
 			else
-			pandoc -s -f markdown --pdf-engine=pdflatex \
+			pandoc -f markdown \
 				--template template_2 \
+				--pdf-engine=pdflatex \
 				--pdf-engine-opt=-shell-escape \
 				-V geometry:a4paper \
+				-V fontenc=T2A \
 				-V geometry:margin=2cm \
 				-V linkcolor:blue \
-				-V fontenc=T2A \
-				-V fontsize=12pt -V lang=uk-UA -o "$base".pdf "$file"
-				# gfm --- github style markdown
-				# /usr/share/haskell-pandoc/data/templates
+				-o "$base".pdf "$file"
 			fi
 
 		fi ; ;;
