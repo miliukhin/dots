@@ -70,4 +70,4 @@ alias \
 	ref="shortcuts >/dev/null; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc ; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/zshnameddirrc" \
 	weath="less -S ${XDG_CACHE_HOME:-$HOME/.cache}/weatherreport" \
 	bq='JAVA_TOOL_OPTIONS="-Dglass.gtk.uiScale=1.4 -XX:MaxRAM=4g" bisq-desktop' \
-	hugg="cd ~/Documents/Hugo/based && hugo server --noHTTPCache --disableFastRender"
+	hugg="hugo server --noHTTPCache --disableFastRender"
