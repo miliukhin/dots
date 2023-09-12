@@ -16,4 +16,5 @@ if grep -q "^$bookmark$" "$file"; then
 else
 	notify-send "Додана закладка!" "$bookmark записана у файл"
 	echo "$bookmark" >> "$file"
+	echo "$bookmark" | xclip -selection clipboard -i
 fi

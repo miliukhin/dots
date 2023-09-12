@@ -13,7 +13,6 @@ wp  ${XDG_PICTURES_DIR:-$HOME/Pictures/wallpapers}
 sc  $HOME/.local/bin
 src $HOME/.local/src
 vv  ${XDG_VIDEOS_DIR:-$HOME/Videos}
-con $HOME/Documents/Sites/miliukhin.xyz/content
-stc $HOME/Documents/Sites/miliukhin.xyz/static
+mil $HOME/Documents/Sites/miliukhin.xyz
 doctemp $HOME/Templates/lpnu_doc_templates
 nav $HOME/Programs/Nav

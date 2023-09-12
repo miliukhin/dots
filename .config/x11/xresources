@@ -2,7 +2,7 @@
 *.alpha: .9
 *.dpi:		120
 !! Set a default font and font size as below:
-*.font: monospace:size=10:antialias=true:autohint=true;
+*.font: monospace:size=10
 ! st.termname: st-256color
 
 /* #include "colors/lamp_remake.xresources" */
@@ -27,7 +27,7 @@
 *.color3:       #cb8829
 *.color4:       #6a857d
 *.color5:       #be5a5d
-*.color6:       #7a9a7a
+*.color6:       #6a9d6a
 *.color7:       #b0a473
 *.color8:       #8f7f70
 *.color9:       #fc5d1f
@@ -108,6 +108,7 @@
 /* *.color15: #3c3836 */
 /* *.background: #fbf1c7 */
 /* *.foreground: #282828 */
+/* *.cursorColor: #282828 */
 /* st.alpha: 0.9 */
 
 /* !! xterm */
@@ -171,3 +172,32 @@
 /* URxvt.colorIT:  #5f875f */
 /* URxvt.colorBD:  #5f875f */
 /* URxvt.colorUL:  #5f875f */
+
+/* ! catppuccin mocha */
+/* *background: #1E1E2E */
+/* *foreground: #CDD6F4 */
+/* ! black */
+/* *color0: #45475A */
+/* *color0: #1E1E2E */
+/* *color8: #585B70 */
+/* ! red */
+/* *color1: #F38BA8 */
+/* *color9: #F38BA8 */
+/* ! green */
+/* *color2: #A6E3A1 */
+/* *color10: #A6E3A1 */
+/* ! yellow */
+/* *color3: #F9E2AF */
+/* *color11: #F9E2AF */
+/* ! blue */
+/* *color4: #89B4FA */
+/* *color12: #89B4FA */
+/* ! magenta */
+/* *color5: #F5C2E7 */
+/* *color13: #F5C2E7 */
+/* ! cyan */
+/* *color6: #94E2D5 */
+/* *color14: #94E2D5 */
+/* ! white */
+/* *color7: #BAC2DE */
+/* *color15: #A6ADC8 */

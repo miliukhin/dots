@@ -1,5 +1,5 @@
 #!/bin/sh
 
-# looks for file names that start with 0_ and passes them to zathura
+# passes files in Books/ to zathura
 
-find ~/Books/ -iname '0_*' | dmenu -i -p "Read what? (ESC to cancel)" -l 20 | sed 's/^/"/; s/$/"/' | xargs -r zathura
+find ~/Books/ | dmenu -i -p "Read what? (ESC to cancel)" -l 20 | sed 's/^/"/; s/$/"/' | xargs -r zathura
