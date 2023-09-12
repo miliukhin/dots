@@ -3,8 +3,8 @@
 # This script is called on startup to remap keys.
 # Decrease key repeat delay to 300ms and increase key repeat rate to 50 per second.
 xset r rate 300 50
-# Set layout, clear options and enable layout toggling with right alt. See man xkeyboard-config
-setxkbmap -layout us,ua -option -option grp:ctrl_shift_toggle
+# Set layout, clear options and enable layout toggling with alt+space. See man xkeyboard-config
+setxkbmap -layout us,ua -option -option grp:alt_space_toggle
 # Map the caps lock key to super, and map the menu key to right super.
 setxkbmap -option caps:super,altwin:menu_win
 # When caps lock is pressed only once, treat it as escape.

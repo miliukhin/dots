@@ -37,7 +37,7 @@ screencast() { \
 	-i "$DISPLAY" \
 	-r 24 \
 	-use_wallclock_as_timestamps 1 \
-	-f alsa -thread_queue_size 1024 -i default \
+	-f jack -i default \
 	-c:v h264 \
 	-crf 0 -preset ultrafast -c:a aac \
 	"$HOME/screencast-$(date '+%y%m%d-%H%M-%S').mp4" &

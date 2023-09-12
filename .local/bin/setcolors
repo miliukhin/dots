@@ -2,7 +2,7 @@
 
 # Switch between day and night color scheme
 
-DAY_FILE="$HOME/.config/x11/colors/gruvbox_light.xresources"
+DAY_FILE="$HOME/.config/x11/gruvbox_light.xresources"
 NIGHT_FILE="$HOME/.config/x11/xresources"
 
 xrdb "$HOME/.config/x11/xresources"
@@ -15,18 +15,21 @@ wmpid(){ # This function is needed if there are multiple instances of the window
 }
 
 switch_to_day() {
-	setbg "$HOME/Pictures/wallpapers/gruvbox_light"
+	setbg "$HOME/Pictures/wallpapers/gruvbox-wallpapers/wallpapers/light"
 	xrdb -merge "$DAY_FILE"
-
-	pywalfox dark
+	if command -v pywalfox >/dev/null 2>&1 ; then
+		pywalfox light
+	fi
 }
 
 switch_to_night() {
-	setbg "$HOME/Pictures/wallpapers/sleepy"
+	setbg "$HOME/Pictures/wallpapers/lantern"
 	xrdb -merge "$NIGHT_FILE"
-
-	pywalfox dark
+	if command -v pywalfox >/dev/null 2>&1 ; then
+		pywalfox dark
+	fi
 }
+
 
 while true
 do
@@ -34,16 +37,15 @@ do
 	current_hour=$(date +%H)
 	current_hour=${current_hour#0}
 
-	# Determine if it's daytime or nighttime based on the current hour
-	if ( current_hour >= 11 && current_hour lt 17 ); then
+	# Check the time and switch
+	if (( current_hour >= 11 && current_hour < 19 )); then
  	   	switch_to_day
 	else
 		switch_to_night
 	fi
 
-	# kill -HUP "$(wmpid)"
-	pywalfox update
+	kill -HUP "$(wmpid)"
+	command -v pywalfox && pywalfox update
 	pidof dwm >/dev/null && xdotool key super+F5
-
-	sleep 1h
+	sleep 2h
 done
