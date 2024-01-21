@@ -1,5 +1,6 @@
 #!/bin/sh
 
 # passes files in Books/ to zathura
+# тре пдф епаб може регекс чи темплейт імені
 
-find ~/Books/ | dmenu -i -p "Read what? (ESC to cancel)" -l 20 | sed 's/^/"/; s/$/"/' | xargs -r zathura
+find ~/Books/ -type f | dmenu -i -p "Read what? (ESC to cancel)" -l 20 | sed 's/^/"/; s/$/"/' | xargs -r mimeopen

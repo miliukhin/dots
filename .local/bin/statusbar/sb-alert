@@ -17,7 +17,7 @@ tail -1 "$hist" | grep "тривога" >> /dev/null && echo 📢 || echo 🔱
 
 case $BLOCK_BUTTON in
 	1) notify-send "Модуль повітряної тривоги" "Завантаження мапи..." & \
-		curl -sL "https://alerts.com.ua/map.png" > "$map" && setsid sxiv "$map" ;;
+		curl -sL "https://alerts.com.ua/map.png" > "$map" && setsid nsxiv "$map" ;;
 	2) notify-send "" ;;
 	3) notify-send "" ;;
 	6) "$TERMINAL" -e "$EDITOR" "$0" ;;

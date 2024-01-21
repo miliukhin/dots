@@ -17,6 +17,8 @@ Plug 'preservim/nerdtree'
 Plug 'junegunn/goyo.vim'
 Plug 'jreybert/vimagit'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-ui'
 Plug 'vimwiki/vimwiki'
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-commentary'
@@ -24,6 +26,7 @@ Plug 'ap/vim-css-color'
 Plug 'ivanesmantovich/xkbswitch.nvim' " so I don't have to switch language manually when exiting insert mode
 " Literally bloat
 	" Plug 'ycm-core/YouCompleteMe'
+	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 	Plug 'cdelledonne/vim-cmake'
 	Plug 'skywind3000/asyncrun.vim'
 	Plug 'habamax/vim-godot'
@@ -39,13 +42,20 @@ Plug 'ivanesmantovich/xkbswitch.nvim' " so I don't have to switch language manua
 " Misc
 	Plug 'dylanaraps/wal.vim'
 	" Plug 'nekonako/xresources-nvim'
+	Plug 'morhetz/gruvbox'
+	Plug 'flniu/er.vim'
+	" Plug 'dinhhuy258/vim-database', {'branch': 'master', 'do': ':UpdateRemotePlugins'}
 call plug#end()
 
-colorscheme wal
+set termguicolors
+" colorscheme wal
+" let g:gruvbox_transparent_bg = 1
+" autocmd VimEnter * hi Normal ctermbg=NONE guibg=NONE
+colorscheme gruvbox
 " colorscheme xresources
 
 set title
-" set bg=light
+set bg=light
 set go=a
 set mouse=a
 set nohlsearch
@@ -56,7 +66,7 @@ set laststatus=0
 set noshowcmd
 set ignorecase
 set smartcase
-set linebreak
+" set linebreak
 " set cursorline
 " set incsearch
 " set complete+=kspell " 'ctrl-x s' ctrl-n[ext] ctrl-p[revious] complete words
@@ -127,11 +137,19 @@ set linebreak
 
 " Ensure files are read as what I want:
 	let g:vimwiki_ext2syntax = {'.Rmd': 'markdown', '.rmd': 'markdown','.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
-	map <leader>v :VimwikiIndex<CR>
+	map <leader>vw :VimwikiIndex<CR>
 	map <leader>vd :VimwikiDiaryIndex<CR>
 	map <leader>vdm :VimwikiMakeDiaryNote<CR>
 	map <leader>vdg :VimwikiDiaryGenerateLinks<CR>
-	let g:vimwiki_list = [{'path': '~/.local/share/nvim/vimwiki', 'syntax': 'markdown', 'ext': '.md'}]
+	" let g:vimwiki_list = [{'path': '~/.local/share/nvim/vimwiki', 'syntax': 'markdown', 'ext': '.md'}]
+	let g:vimwiki_list = [{
+				\ 'path': '~/.local/share/nvim/vimwiki/content',
+				\ 'path_html': '~/.local/share/nvim/vimwiki/_site',
+				\ 'syntax': 'markdown',
+				\ 'ext': '.md',
+				\ 'custom_wiki2html': 'vimwiki2html'
+				\}] " wiki2html
+
 	autocmd BufRead,BufNewFile /tmp/calcurse*,~/.calcurse/notes/* set filetype=markdown
 	autocmd BufRead,BufNewFile *.ms,*.me,*.mom,*.man set filetype=groff
 	autocmd BufRead,BufNewFile *.tex set filetype=tex
@@ -241,12 +259,10 @@ let g:ycm_language_server +=
 " Auto-switching keyboard layout to retain control while exiting insert mode
 lua require('xkbswitch').setup()
 
-" For vim-guitar-tab
-	" let &runtimepath.=',../'
-	" au BufRead,BufNewFile *.tab set filetype=guitartab
-
 " toggle concealment
 	nnoremap <leader>a :let &cole=(&cole == 2) ? 0 : 2 <bar> echo 'conceallevel ' . &cole <CR>
 
 let g:trans_default_direction=":uk"
 nmap <leader>t :Trans<cr>
+
+silent! source ~/.config/nvim/cringe.vim
