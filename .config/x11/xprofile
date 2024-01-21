@@ -4,9 +4,9 @@
 # If you use startx/xinit like a Chad, this file will also be sourced.
 
 xrandr --dpi 144		# Set DPI. User may want to use a larger number for larger screens.
-setbg & 			# set the background with the `setbg` script
+# setbg & 			# set the background with the `setbg` script
 xrdb "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources" & xrdbpid=$!	# use Xresources colors/settings
-setcolors >/dev/null 2>&1 &
+setcolors light >/dev/null 2>&1 &
 remaps &		# run the remaps script, switching caps/esc and more; check it for more info
 
 autostart="mpd dunst unclutter pipewire"
@@ -18,11 +18,5 @@ done >/dev/null 2>&1
 
 # xcompmgr -f -F -D 3 &
 
-# paperview "~/Programs/Misc/paperview/spiders" 15 &
-# mpc load deathfm && mpc toggle
-# ls Music | sort -R | tail -1 | mpc add && mpc toggle
-
 # Ensure that xrdb has finished running before moving on to start the WM/DE.
 [ -n "$xrdbpid" ] && wait "$xrdbpid"
-
-# cd ~/Music && mpc add * && mpc shuffle && mpc play &

@@ -84,11 +84,21 @@ audio() { \
 	updateicon "🎙️"
 	}
 
+jackinputs() { \
+	ffmpeg \
+	-f jack -i default \
+	-c:a flac \
+	"$HOME/audio-$(date '+%y%m%d-%H%M-%S').flac" &
+	echo $! > /tmp/recordingpid
+	updateicon "🎙️"
+	}
+
 askrecording() { \
-	choice=$(printf "screencast\\nvideo\\nvideo selected\\naudio\\nwebcam\\nwebcam (hi-def)" | dmenu -i -p "Select recording style:")
+	choice=$(printf "screencast\\nvideo\\nvideo selected\\naudio\\njackinputs\\nwebcam\\nwebcam (hi-def)" | dmenu -i -p "Select recording style:")
 	case "$choice" in
 		screencast) screencast;;
 		audio) audio;;
+		jackinputs) jackinputs;;
 		video) video;;
 		*selected) videoselected;;
 		webcam) webcam;;
@@ -121,6 +131,7 @@ videoselected()
 case "$1" in
 	screencast) screencast;;
 	audio) audio;;
+	jackinputs) jackinputs;;
 	video) video;;
 	*selected) videoselected;;
 	kill) killrecording;;

@@ -37,6 +37,9 @@ do
 	current_hour=$(date +%H)
 	current_hour=${current_hour#0}
 
+	[ "$1" == light ] && switch_to_day && exit 0;
+	[ "$1" == dark ] && switch_to_night && exit 0;
+
 	# Check the time and switch
 	if (( current_hour >= 11 && current_hour < 19 )); then
  	   	switch_to_day

@@ -103,6 +103,7 @@ map gh
 map g top
 map D delete
 map E extract
+map e &canved "$f" -o "$f"
 map C copyto
 map M moveto
 map <c-n> push :mkdir<space>
