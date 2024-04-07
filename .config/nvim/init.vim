@@ -47,15 +47,15 @@ Plug 'ivanesmantovich/xkbswitch.nvim' " so I don't have to switch language manua
 	" Plug 'dinhhuy258/vim-database', {'branch': 'master', 'do': ':UpdateRemotePlugins'}
 call plug#end()
 
-set termguicolors
-" colorscheme wal
+" set termguicolors
+colorscheme wal
 " let g:gruvbox_transparent_bg = 1
-" autocmd VimEnter * hi Normal ctermbg=NONE guibg=NONE
-colorscheme gruvbox
+autocmd VimEnter * hi Normal guibg=NONE
+" colorscheme gruvbox
 " colorscheme xresources
 
 set title
-set bg=light
+" set bg=light
 set go=a
 set mouse=a
 set nohlsearch
@@ -141,14 +141,19 @@ set smartcase
 	map <leader>vd :VimwikiDiaryIndex<CR>
 	map <leader>vdm :VimwikiMakeDiaryNote<CR>
 	map <leader>vdg :VimwikiDiaryGenerateLinks<CR>
+	map <leader>vwh :Vimwiki2HTML<CR>
+	map <leader>vwd :VimwikiDeleteFile<CR>
 	" let g:vimwiki_list = [{'path': '~/.local/share/nvim/vimwiki', 'syntax': 'markdown', 'ext': '.md'}]
+
 	let g:vimwiki_list = [{
-				\ 'path': '~/.local/share/nvim/vimwiki/content',
+				\ 'path': '~/.local/share/nvim/vimwiki',
 				\ 'path_html': '~/.local/share/nvim/vimwiki/_site',
+				\ 'diary_rel_path': '.diary/',
 				\ 'syntax': 'markdown',
 				\ 'ext': '.md',
+				\ 'css_name': 'style.css',
 				\ 'custom_wiki2html': 'vimwiki2html'
-				\}] " wiki2html
+				\}]
 
 	autocmd BufRead,BufNewFile /tmp/calcurse*,~/.calcurse/notes/* set filetype=markdown
 	autocmd BufRead,BufNewFile *.ms,*.me,*.mom,*.man set filetype=groff
@@ -266,3 +271,6 @@ let g:trans_default_direction=":uk"
 nmap <leader>t :Trans<cr>
 
 silent! source ~/.config/nvim/cringe.vim
+
+map ,I :norm I
+map ,A :norm A

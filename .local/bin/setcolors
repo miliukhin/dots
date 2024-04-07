@@ -1,9 +1,10 @@
 #!/bin/sh
-
 # Switch between day and night color scheme
-
 DAY_FILE="$HOME/.config/x11/gruvbox_light.xresources"
 NIGHT_FILE="$HOME/.config/x11/xresources"
+diff_vim="$HOME/projects/sarbs/theme_switch/init.vim.diff"
+diff_2="$HOME/projects/sarbs/theme_switch/gtkrc-2.0.diff"
+diff_3="$HOME/projects/sarbs/theme_switch/settings.ini.diff"
 
 xrdb "$HOME/.config/x11/xresources"
 
@@ -20,35 +21,35 @@ switch_to_day() {
 	if command -v pywalfox >/dev/null 2>&1 ; then
 		pywalfox light
 	fi
+	patch -f -s -r - --no-backup-if-mismatch -R $HOME/.config/gtk-2.0/gtkrc-2.0		$diff_2
+	patch -f -s -r - --no-backup-if-mismatch -R $HOME/.config/gtk-3.0/settings.ini		$diff_3
+	patch -f -s -r - --no-backup-if-mismatch -R $HOME/.config/nvim/init.vim			$diff_vim
 }
 
 switch_to_night() {
-	setbg "$HOME/Pictures/wallpapers/lantern"
+	setbg "$HOME/Pictures/wallpapers/lantern/yeee/wallhaven-856dlk.png"
 	xrdb -merge "$NIGHT_FILE"
 	if command -v pywalfox >/dev/null 2>&1 ; then
 		pywalfox dark
 	fi
+	patch -f -s -r - --no-backup-if-mismatch $HOME/.config/gtk-2.0/gtkrc-2.0		$diff_2
+	patch -f -s -r - --no-backup-if-mismatch $HOME/.config/gtk-3.0/settings.ini		$diff_3
+	patch -f -s -r - --no-backup-if-mismatch $HOME/.config/nvim/init.vim			$diff_vim
 }
 
+current_hour=$(date +%H)
+current_hour=${current_hour#0}
 
-while true
-do
-	# Get the current hour in 24-hour format
-	current_hour=$(date +%H)
-	current_hour=${current_hour#0}
+[ "$1" == light ] && switch_to_day && exit 0;
+[ "$1" == dark ] && switch_to_night && exit 0;
 
-	[ "$1" == light ] && switch_to_day && exit 0;
-	[ "$1" == dark ] && switch_to_night && exit 0;
+# Check the time and switch
+if (( current_hour >= 11 && current_hour < 19 )); then
+	   	switch_to_day
+else
+	switch_to_night
+fi
 
-	# Check the time and switch
-	if (( current_hour >= 11 && current_hour < 19 )); then
- 	   	switch_to_day
-	else
-		switch_to_night
-	fi
-
-	kill -HUP "$(wmpid)"
-	command -v pywalfox && pywalfox update
-	pidof dwm >/dev/null && xdotool key super+F5
-	sleep 2h
-done
+kill -HUP "$(wmpid)"
+command -v pywalfox && pywalfox update
+pidof dwm >/dev/null && xdotool key super+F5
