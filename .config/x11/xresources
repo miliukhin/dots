@@ -1,9 +1,17 @@
 !! Transparency (0-1):
 *.alpha: .9
-*.dpi:		120
+*.dpi:		96
 !! Set a default font and font size as below:
 *.font: monospace:size=10
 ! st.termname: st-256color
+
+/* ! Fonts {{{ */
+/* Xft.antialias:	false */
+/* Xft.hinting:	false */
+/* Xft.rgba:	rgb */
+/* Xft.hintstyle:	hintfull */
+/* /1* Xft.dpi:	154 *1/ */
+/* ! }}} */
 
 /* #include "colors/lamp_remake.xresources" */
 /* #include "lantern/lantern.xresources" */
@@ -37,7 +45,7 @@
 *.color13:      #e68f77
 *.color14:      #b0ce8f
 *.color15:      #f5df99
-*.background:	#0f0f0f
+*.background:	#101010
 ! high contrast
 ! *.background:   #090808
 *.foreground:   #f5df99
@@ -83,9 +91,10 @@
 /* *.color15: #ebdbb2 */
 /* *.color256: #1d2021 */
 /* *.color257: #ebdbb2 */
-/* *.background: #1c1c1c */
+/* /1* *.background: #1c1c1c *1/ */
 /* /1* *.background: #1d1915 *1/ */
 /* /1* *.background: #1d2021 *1/ */
+/* *.background: #282828 */
 /* *.foreground: #ebdbb2 */
 /* *.cursorColor: #ebdbb2 */
 

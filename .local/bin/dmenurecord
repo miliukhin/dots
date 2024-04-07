@@ -29,6 +29,26 @@ killrecording() {
 	exit
 	}
 
+asktodel() { \
+	response=$(printf "Yes\\nNo" | dmenu -i -p "Delete recording?") &&
+	[ "$response" = "Yes" ] &&  killdel || killrecording
+	}
+
+killdel() {
+	recpid="$(cat /tmp/recordingpid)"
+	file="$(ps aux | grep -m 1 "$recpid" | sed 's/^sasha[^/]*//g')"
+	# kill with SIGTERM, allowing finishing touches.
+	kill -15 "$recpid"
+	rm -f /tmp/recordingpid
+	updateicon ""
+	pkill -RTMIN+9 "${STATUSBAR:-dwmblocks}"
+	# even after SIGTERM, ffmpeg may still run, so SIGKILL it.
+	sleep 3
+	kill -9 "$recpid"
+	rm "$file"
+	exit
+	}
+
 screencast() { \
 	ffmpeg -y \
 	-f x11grab \
@@ -37,7 +57,7 @@ screencast() { \
 	-i "$DISPLAY" \
 	-r 24 \
 	-use_wallclock_as_timestamps 1 \
-	-f jack -i default \
+	-f pulse -i default \
 	-c:v h264 \
 	-crf 0 -preset ultrafast -c:a aac \
 	"$HOME/screencast-$(date '+%y%m%d-%H%M-%S').mp4" &
@@ -77,7 +97,7 @@ webcam() { ffmpeg \
 
 audio() { \
 	ffmpeg \
-	-f alsa -i default \
+	-f pulse -i default \
 	-c:a flac \
 	"$HOME/audio-$(date '+%y%m%d-%H%M-%S').flac" &
 	echo $! > /tmp/recordingpid
@@ -88,6 +108,7 @@ jackinputs() { \
 	ffmpeg \
 	-f jack -i default \
 	-c:a flac \
+	-ac 1 \
 	"$HOME/audio-$(date '+%y%m%d-%H%M-%S').flac" &
 	echo $! > /tmp/recordingpid
 	updateicon "🎙️"
@@ -135,5 +156,6 @@ case "$1" in
 	video) video;;
 	*selected) videoselected;;
 	kill) killrecording;;
+	del) asktodel;;
 	*) ([ -f /tmp/recordingpid ] && asktoend && exit) || askrecording;;
 esac

@@ -24,4 +24,4 @@ cfX	${XDG_CONFIG_HOME:-$HOME/.config}/nsxiv/exec/key-handler	# nsxiv (image view
 
 mus	$HOME/.local/share/larbs/songlog			# saved songs
 sn	$HOME/.local/share/larbs/snippets			# bookmarked webpages
-di	$HOME/.local/share/nvim/vimwiki/dictionary.md		# dictionary
+di	$HOME/.local/share/larbs/dictionary.md			# dictionary

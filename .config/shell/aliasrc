@@ -20,10 +20,17 @@ se() {
 }
 uni() {
   # local dir
-  dir=$(find ~/Documents/uni/ -type d 2>/dev/null | fzf +m) && lfcd "$dir" || return
-  # cd $(fzf) || cd$(fzf) # шось там сед забере з кінця назву файлу
+  dir=$(find ~/Documents/uni/ -type d 2>/dev/null | fzf +m) && cd "$dir" && lfcd || return
 }
-# dir=$(fd -t d | fzf +m) && cd "$dir" # fd is faster
+
+dither () {
+	file=$(readlink -f "$1")
+	base="${file%.*}"
+	magick $file -modulate 100x0 -ordered-dither $2x1 -transparent white ${base}_dithered.webp
+}
+canv () {
+	canved $1 -o $1
+}
 
 # Verbosity and settings that you pretty much just always are going to want.
 alias \
@@ -33,11 +40,12 @@ alias \
 	bc="bc -ql" \
 	rsync="rsync -vrPlu" \
 	mkd="mkdir -pv" \
-	yt="yt-dlp --embed-metadata -i" \
+	yt="yt-dlp -o '%(title)s.%(ext)s' --embed-metadata -i" \
 	yta="yt -x -f bestaudio/best" \
 	ytt="yt --skip-download --write-thumbnail" \
 	ytfzf="ytfzf  --pages=3 -t -l" \
-	ffmpeg="ffmpeg -hide_banner"
+	ffmpeg="ffmpeg -hide_banner" \
+	info="info --vi-keys"
 # mkd make parent dir
 # cp, mv ask to overwrite instead overwriting by default
 
@@ -70,4 +78,5 @@ alias \
 	ref="shortcuts >/dev/null; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc ; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/zshnameddirrc" \
 	weath="less -S ${XDG_CACHE_HOME:-$HOME/.cache}/weatherreport" \
 	bq='JAVA_TOOL_OPTIONS="-Dglass.gtk.uiScale=1.4 -XX:MaxRAM=4g" bisq-desktop' \
-	hugg="hugo server --noHTTPCache --disableFastRender"
+	hugg="hugo server --noHTTPCache --disableFastRender" \
+	lynx="lynx --display_charset=utf-8"

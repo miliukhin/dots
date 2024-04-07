@@ -22,7 +22,7 @@ textype() { \
 	command="pdflatex"
 	argument=""
 	( head -n5 "$textarget" | grep -qi 'xelatex' ) && command="xelatex"
-	( head -n5 "$textarget" | grep -qi 'shell-escape' ) && argument="-shell-escape"
+	( head -n8 "$textarget" | grep -qi 'shell-escape' ) && argument="-shell-escape"
 	$command $argument --output-directory="${textarget%/*}" "${textarget%.*}"
 		grep -qi addbibresource "$textarget" &&
 		biber --input-directory "${textarget%/*}" "${textarget%.*}" &&
@@ -33,9 +33,10 @@ textype() { \
 case "$ext" in
 	# Try to keep these cases in alphabetical order.
 	[0-9]) preconv "$file" | refer -PS -e | groff -mandoc -T pdf > "$base".pdf ;;
-	c) cc "$file" -o "$base" && "$base" ;;
+	c) cc "$file" -o "$base" && "$base" || cc -lm "$file" -o "$base" && "$base" ;;
 	cpp) g++ "$file" -o "$base" && "$base" ;;
 	cs) mcs "$file" && mono "$base".exe ;;
+	dot) dot "$file" -Tpdf -o "$base".pdf ;;
 	er) eralchemy -i "$file" -o "$base".pdf ;;
 	go) go run "$file" ;;
 	gv) dot "$file" -Tpdf -o "$base".pdf ;;
@@ -56,8 +57,8 @@ case "$ext" in
 				-t beamer \
 				-V urlcolor:blue \
 				-V fontenc=T2A \
-				-V mainfont="Fira Sans" \
-				-V monofont="Fantasque Sans Mono" \
+				-V mainfont="Liberation Sans" \
+				-V monofont="Iosevka Fixed Curly" \
 				-V linkcolor:gray \
 				-V lang=uk-UA -o "$base".pdf "$file"
 
@@ -66,14 +67,15 @@ case "$ext" in
 				--pdf-engine=xelatex \
 				--template template_2 \
 				--pdf-engine-opt=-shell-escape \
+				--highlight-style $XDG_DATA_HOME/pandoc/meow.theme \
 				-V geometry:a4paper \
 				-V linkcolor:blue \
 				-V fontenc=T2A \
+				--citeproc \
 				-V geometry:margin=2cm,top=1.5cm \
-				-V mainfont="Nimbus Roman" \
-				-V monofont="Liberation Mono" \
+				-V mainfont="Linux Libertine" \
+				-V monofont="Iosevka Fixed Curly" \
 				-V fontsize=12pt -V lang=uk-UA -o "$base".pdf "$file"
-				# --filter pandoc-crossref \
 			else
 			pandoc -f markdown \
 				--template template_2 \
@@ -82,6 +84,7 @@ case "$ext" in
 				-V geometry:a4paper \
 				-V fontenc=T2A \
 				-V geometry:margin=2cm \
+				-V fontsize=12pt \
 				-V linkcolor:blue \
 				-o "$base".pdf "$file"
 			fi
@@ -91,7 +94,10 @@ case "$ext" in
 	ms) preconv "$file" | refer -PS -e | groff -me -ms -kept -T pdf > "$base".pdf ;;
 	org) emacs "$file" --batch -u "$USER" -f org-latex-export-to-pdf ;;
 	pas) fpc "$file" -o"$base" && "$base" ;;
+	php) php -n -f "$file" ;; # <++>
+	gnuplot|plt) gnuplot -p "$file" ;;
 	py) python "$file" ;;
+	r) Rscript "$file" ;;
 	[rR]md) Rscript -e "rmarkdown::render('$file', quiet=TRUE)" ;;
 	rs) cargo build ;;
 	sass) sassc -a "$file" "$base".css ;;
