@@ -1,0 +1,49 @@
+#!/bin/sh
+
+omit_links="sed '/^\[/d; /\(.*\/.*\)/d;'"
+renderer=mdr
+
+function slovo () {
+curl -s "$1" \
+	| html2text \
+	| sed '/^\[/d; /\(.*\/.*\)/d;' \
+	| sed -ne '0,/Шукати.*на інших ресурсах/{s/Шукати.*на інших ресурсах//p;d;}' -e p \
+	| sed '/Помилка в тексті?/,$d' \
+	| sed '/^$/d; /^:/d' \
+	| $renderer
+}
+
+function sum () {
+curl -s "$1" \
+		| html2text \
+		| sed '/Коментарі (/,$d' \
+		| sed -ne '0,/_Тлумачення_/{s/_Тлумачення_.*//p;d;}' -e p \
+		| $renderer
+}
+
+function w3 () {
+	cadictua "$1" | w3m -T text/html
+}
+
+function help() {
+echo "$0 -[serdh] <word>
+	-v	vesum
+	-e	e2u - default
+	-c	cases (lcorp.ulif.org.ua/dictua)
+	-r	r2u
+	-d	definition(sum.in.ua)
+	-h	help"
+}
+
+[ -z "$1" ] && help && exit 1
+
+word=$2
+case $1 in
+	-v) link='https://vesum.nlp.net.ua/?w='$word'&all_forms=on' && slovo $link ;;
+	-e) link='https://e2u.org.ua/s?w='$word'&dicts=all&highlight=on&filter_lines=on&main_only=on' && slovo $link ;;
+	-r) link='https://r2u.org.ua/s?w='$word'&highlight=on' && slovo $link ;;
+	-d) tr=$(trl $word) && link=https://sum.in.ua/s/$tr && sum $link ;;
+	-c) w3 "$word" ;;
+	-h) help ;;
+	*) word=$1 && link='https://e2u.org.ua/s?w='$word'&dicts=all&highlight=on&filter_lines=on&main_only=on' && slovo $link
+esac

@@ -95,7 +95,7 @@ case "$ext" in
 	org) emacs "$file" --batch -u "$USER" -f org-latex-export-to-pdf ;;
 	pas) fpc "$file" -o"$base" && "$base" ;;
 	php) php -n -f "$file" ;; # <++>
-	gnuplot|plt) gnuplot -p "$file" ;;
+	gnuplot|plt) gnuplot -p "$file" > "$base".pdf ;;
 	py) python "$file" ;;
 	r) Rscript "$file" ;;
 	[rR]md) Rscript -e "rmarkdown::render('$file', quiet=TRUE)" ;;

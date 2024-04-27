@@ -10,7 +10,6 @@ endif
 map ,, :keepp /<++><CR>ca<
 imap ,, <esc>:keepp /<++><CR>ca<
 
-" OMG! look at all this bloat!
 call plug#begin(system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/plugged"'))
 Plug 'tpope/vim-surround'
 Plug 'preservim/nerdtree'
@@ -24,7 +23,6 @@ Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-commentary'
 Plug 'ap/vim-css-color'
 Plug 'ivanesmantovich/xkbswitch.nvim' " so I don't have to switch language manually when exiting insert mode
-" Literally bloat
 	" Plug 'ycm-core/YouCompleteMe'
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 	Plug 'cdelledonne/vim-cmake'
@@ -47,12 +45,20 @@ Plug 'ivanesmantovich/xkbswitch.nvim' " so I don't have to switch language manua
 	" Plug 'dinhhuy258/vim-database', {'branch': 'master', 'do': ':UpdateRemotePlugins'}
 call plug#end()
 
-" set termguicolors
-colorscheme wal
-" let g:gruvbox_transparent_bg = 1
 autocmd VimEnter * hi Normal guibg=NONE
-" colorscheme gruvbox
-" colorscheme xresources
+let modus = "dark"
+
+if modus=="dark"
+	colorscheme wal
+	" set termguicolors
+	" colorscheme gruvbox
+	" colorscheme xresources
+else
+	" let g:gruvbox_transparent_bg = 1
+	set termguicolors
+	colorscheme gruvbox
+	set bg=light
+endif
 
 set title
 " set bg=light
@@ -66,6 +72,8 @@ set laststatus=0
 set noshowcmd
 set ignorecase
 set smartcase
+set tabstop=4
+set shiftwidth=4
 " set linebreak
 " set cursorline
 " set incsearch
@@ -145,15 +153,31 @@ set smartcase
 	map <leader>vwd :VimwikiDeleteFile<CR>
 	" let g:vimwiki_list = [{'path': '~/.local/share/nvim/vimwiki', 'syntax': 'markdown', 'ext': '.md'}]
 
-	let g:vimwiki_list = [{
+	let wiki_1 = {
 				\ 'path': '~/.local/share/nvim/vimwiki',
-				\ 'path_html': '~/.local/share/nvim/vimwiki/_site',
-				\ 'diary_rel_path': '.diary/',
+				\ 'syntax': 'markdown',
+				\ 'ext': '.md',
+				\}
+
+	let wiki_2 = {
+				\ 'path': '~/.local/share/nvim/vimwiki/linkwiki',
+				\ 'path_html': '~/.local/share/nvim/vimwiki/linkwiki/_site',
 				\ 'syntax': 'markdown',
 				\ 'ext': '.md',
 				\ 'css_name': 'style.css',
 				\ 'custom_wiki2html': 'vimwiki2html'
-				\}]
+				\}
+	let g:vimwiki_list = [wiki_1, wiki_2]
+
+	" let g:vimwiki_list = [{
+	" 			\ 'path': '~/.local/share/nvim/vimwiki',
+	" 			\ 'path_html': '~/.local/share/nvim/vimwiki/_site',
+	" 			\ 'diary_rel_path': '.diary/',
+	" 			\ 'syntax': 'markdown',
+	" 			\ 'ext': '.md',
+	" 			\ 'css_name': 'style.css',
+	" 			\ 'custom_wiki2html': 'vimwiki2html'
+	" 			\}]
 
 	autocmd BufRead,BufNewFile /tmp/calcurse*,~/.calcurse/notes/* set filetype=markdown
 	autocmd BufRead,BufNewFile *.ms,*.me,*.mom,*.man set filetype=groff
@@ -274,3 +298,5 @@ silent! source ~/.config/nvim/cringe.vim
 
 map ,I :norm I
 map ,A :norm A
+
+set hlsearch
