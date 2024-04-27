@@ -79,4 +79,5 @@ alias \
 	weath="less -S ${XDG_CACHE_HOME:-$HOME/.cache}/weatherreport" \
 	bq='JAVA_TOOL_OPTIONS="-Dglass.gtk.uiScale=1.4 -XX:MaxRAM=4g" bisq-desktop' \
 	hugg="hugo server --noHTTPCache --disableFastRender" \
-	lynx="lynx --display_charset=utf-8"
+	lynx="lynx --display_charset=utf-8" \
+	ytb="librewolf -p youtuber"

@@ -23,18 +23,20 @@ switch_to_day() {
 	fi
 	patch -f -s -r - --no-backup-if-mismatch -R $HOME/.config/gtk-2.0/gtkrc-2.0		$diff_2
 	patch -f -s -r - --no-backup-if-mismatch -R $HOME/.config/gtk-3.0/settings.ini		$diff_3
-	patch -f -s -r - --no-backup-if-mismatch -R $HOME/.config/nvim/init.vim			$diff_vim
+	# patch -f -s -r - --no-backup-if-mismatch -R $HOME/.config/nvim/init.vim			$diff_vim
+	sed -i 's/= "dark"/= "light"/' $HOME/.config/nvim/init.vim
 }
 
 switch_to_night() {
-	setbg "$HOME/Pictures/wallpapers/lantern/yeee/wallhaven-856dlk.png"
+	setbg "/home/sasha/Pictures/wallpapers/lantern/sunforest.jpg"
 	xrdb -merge "$NIGHT_FILE"
 	if command -v pywalfox >/dev/null 2>&1 ; then
 		pywalfox dark
 	fi
 	patch -f -s -r - --no-backup-if-mismatch $HOME/.config/gtk-2.0/gtkrc-2.0		$diff_2
 	patch -f -s -r - --no-backup-if-mismatch $HOME/.config/gtk-3.0/settings.ini		$diff_3
-	patch -f -s -r - --no-backup-if-mismatch $HOME/.config/nvim/init.vim			$diff_vim
+	# patch -f -s -r - --no-backup-if-mismatch $HOME/.config/nvim/init.vim			$diff_vim
+	sed -i 's/= "light"/= "dark"/' $HOME/.config/nvim/init.vim
 }
 
 current_hour=$(date +%H)

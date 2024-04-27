@@ -9,7 +9,7 @@ echo "usage: genreport [<args>], if the path to active dir is as:
 or manually: genreport [<discipline>] [<type>] [<number>]" && \
 	exit 0
 
-template_path="$UNI/_templates/"
+template_path="$UNI/.templates/"
 
 lname=$(sed --silent '/Lname/ {s/.*{//; s/}//; p; q}' "$template_path/settings/baseinfo.tex")
 group=$(sed --silent '/Group/ {s/.*{//; s/}//; p; q}' "$template_path/settings/baseinfo.tex")
@@ -26,6 +26,7 @@ number=$(basename $(pwd) | sed "s/[^0-9]*_//" || $3)
 # (бо окремий каталог для презентацій, якщо є тільки одна, очевидно, не потрібен)
 
 filename="${lname}_${group}_${work_type}_${number}.md"
+[ "$discipline" = "signals" ] && filename="Miliukhin_PP-24_${work_type}_${number}.md"
 
 case "$work_type" in
 	lab*) echo LAB ;;
