@@ -9,6 +9,7 @@ message() {
 
 renderer=mdr
 depinstall () {
+	curl -LO 'https://raw.githubusercontent.com/miliukhin/dots/master/.local/bin/lang/trl' && message 'Downloaded trl for transliterating ukrainian characters into latin. Please put it in your \$PATH'
 	# git going
 	printf "%s" "Enter path to a directory for git repos: "
 	read repodir
