@@ -1,0 +1,28 @@
+#!/usr/bin/python
+import sys
+
+ukr_to_lat = {
+    'а': 'a', 'б': 'b', 'в': 'v', 'г': 'h', 'ґ': 'g', 'д': 'd', 'е': 'e',
+    'є': 'ie', 'ж': 'zh', 'з': 'z', 'и': 'y', 'і': 'i', 'ї': 'i', 'й': 'j',
+    'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r',
+    'с': 's', 'т': 't', 'у': 'u', 'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch',
+    'ш': 'sh', 'щ': 'shch', 'ю': 'iu', 'я': 'ia',
+    'ь': 'j', "'": '', '`': '', '’': ''
+}
+
+def transliterate(word):
+    result = ''
+    for char in word:
+        if char.lower() in ukr_to_lat:
+            result += ukr_to_lat[char.lower()]
+        else:
+            result += char
+    return result
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: python trl <word>")
+    else:
+        word = sys.argv[1]
+        transliterated_word = transliterate(word)
+        print(transliterated_word)

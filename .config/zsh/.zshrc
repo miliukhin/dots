@@ -57,7 +57,7 @@ function mkcd () {
 	cd $1
 }
 function curlmd () {
-	curl "$1" | html2text > "$HOME/Documents/unsorted_markdown/$2"
+	curl "$1" | html2text > "$2"
 }
 
 # Use lf to switch directories and bind it to ctrl-o

@@ -79,6 +79,7 @@ case "$ext" in
 			else
 			pandoc -f markdown \
 				--template template_2 \
+				--citeproc \
 				--pdf-engine=pdflatex \
 				--pdf-engine-opt=-shell-escape \
 				-V geometry:a4paper \
