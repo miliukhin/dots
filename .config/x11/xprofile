@@ -4,9 +4,9 @@
 # If you use startx/xinit like a Chad, this file will also be sourced.
 
 xrandr --dpi 144		# Set DPI. User may want to use a larger number for larger screens.
-# setbg & 			# set the background with the `setbg` script
+setbg & 			# set the background with the `setbg` script
 xrdb "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources" & xrdbpid=$!	# use Xresources colors/settings
-setcolors >/dev/null 2>&1 &
+# setcolors >/dev/null 2>&1 &
 remaps &		# run the remaps script, switching caps/esc and more; check it for more info
 
 autostart="mpd dunst unclutter pipewire xcompmgr"
