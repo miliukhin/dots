@@ -57,7 +57,8 @@ function mkcd () {
 	cd $1
 }
 function curlmd () {
-	curl "$1" | html2text > "$2"
+	filename="$(echo $1 | sed -E 's/http.*\/\/(.*)/\1/; s/\//./g' ).md"
+	curl "$1" | html2text > "$filename"
 }
 
 # Use lf to switch directories and bind it to ctrl-o

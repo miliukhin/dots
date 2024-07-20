@@ -24,7 +24,7 @@ Plug 'tpope/vim-commentary'
 Plug 'ap/vim-css-color'
 Plug 'ivanesmantovich/xkbswitch.nvim' " so I don't have to switch language manually when exiting insert mode
 	" Plug 'ycm-core/YouCompleteMe'
-	Plug 'neoclide/coc.nvim', {'branch': 'release'}
+	"Plug 'neoclide/coc.nvim', {'branch': 'release'}
 	Plug 'cdelledonne/vim-cmake'
 	Plug 'skywind3000/asyncrun.vim'
 	Plug 'habamax/vim-godot'
@@ -49,10 +49,9 @@ autocmd VimEnter * hi Normal guibg=NONE
 let modus = "dark"
 
 if modus=="dark"
-	colorscheme wal
-	" set termguicolors
-	" colorscheme gruvbox
-	" colorscheme xresources
+	" colorscheme wal
+	set termguicolors
+	colorscheme lantern
 else
 	" let g:gruvbox_transparent_bg = 1
 	set termguicolors
@@ -72,8 +71,8 @@ set laststatus=0
 set noshowcmd
 set ignorecase
 set smartcase
-set tabstop=4
-set shiftwidth=4
+"set tabstop=4
+"set shiftwidth=4
 " set linebreak
 " set cursorline
 " set incsearch

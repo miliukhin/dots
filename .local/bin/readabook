@@ -1,4 +1,4 @@
 #!/bin/sh
 
 # perl regexes for ( and |
-find ~/[bB]ooks/ -type f | grep -P ".*(pdf|epub|txt|md|chm|ms|htm|doc|opus|djvu|html|mobi)" | dmenu -i -p "Read what? (ESC to cancel)" -l 20 | sed 's/^/"/; s/$/"/' | xargs -r mimeopen -n
+find ~/[bB]ooks/ -type f | grep -P ".*(pdf|epub|txt|md|chm|ms|htm|doc|opus|djvu|html|mobi|mp3)" | dmenu -i -p "Read what? (ESC to cancel)" -l 20 | sed 's/^/"/; s/$/"/' | xargs -r mimeopen -n

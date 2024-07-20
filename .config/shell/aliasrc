@@ -18,16 +18,13 @@ se() {
 	choice="$(find ~/.local/bin -mindepth 1 -printf '%P\n' | fzf)"
 	[ -f "$HOME/.local/bin/$choice" ] && $EDITOR "$HOME/.local/bin/$choice";
 }
+vf() { fzf | xargs -r -I % $EDITOR % ; }
+f() { fzf | xargs -r -I % mimeopen -n % ; }
 uni() {
   # local dir
   dir=$(find ~/Documents/uni/ -type d 2>/dev/null | fzf +m) && cd "$dir" && lfcd || return
 }
 
-dither () {
-	file=$(readlink -f "$1")
-	base="${file%.*}"
-	magick $file -modulate 100x0 -ordered-dither $2x1 -transparent white ${base}_dithered.webp
-}
 canv () {
 	canved $1 -o $1
 }
@@ -52,6 +49,7 @@ alias \
 # Colorize commands when possible.
 alias \
 	ls="ls -hN --color=auto --group-directories-first" \
+	lt="ls --human-readable --size -1 -S --classify" \
 	grep="grep --color=auto" \
 	diff="diff --color=auto" \
 	ccat="highlight --out-format=ansi" \
@@ -75,9 +73,12 @@ alias \
 alias \
 	lf="lfub" \
 	magit="nvim -c MagitOnly" \
+	ports="netstat -tulanp" \
+	vdiff="nvim -d" \
 	ref="shortcuts >/dev/null; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc ; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/zshnameddirrc" \
 	weath="less -S ${XDG_CACHE_HOME:-$HOME/.cache}/weatherreport" \
 	bq='JAVA_TOOL_OPTIONS="-Dglass.gtk.uiScale=1.4 -XX:MaxRAM=4g" bisq-desktop' \
 	hugg="hugo server --noHTTPCache --disableFastRender" \
 	lynx="lynx --display_charset=utf-8" \
-	ytb="librewolf -p youtuber"
+	ytb='librewolf -p youtuber' \
+	gst='git status --untracked-files=no'
