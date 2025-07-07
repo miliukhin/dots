@@ -3,27 +3,22 @@
 # Searches the website for RSS feeds and adds them to newsboat url list. Can
 # also find hidden RSS feeds on various websites, namely Youtube, Reddit,
 # Vimeo, Github, Gitlab and Medium. Gets site url as $1 or (if not present)
-# from X clipboard. If it finds more than one feed, calls dmenu for the user to
-# choose which one to add. I have bound it to a keyboard shortcut so i copy a
-# site link and easily add its feed to the reader.
+# from X clipboard. Gets tags as $2. If it finds more than one feed, calls
+# dmenu for the user to choose which one to add. I have bound it to a keyboard
+# shortcut so i copy a site link and easily add its feed to the reader.
 
 # Inspired by and based on the logic of this extension:
 # https://github.com/shevabam/get-rss-feed-url-extension
 
-# This script uses rssadd script written by Luke Smith to add feeds to the newsboat url list
-# https://github.com/LukeSmithxyz/voidrice/blob/master/.local/bin/rssadd
+# This script requires rssadd to add feeds to the list.
 
 getlink () {
 	local url="$1"
 	feeds="$(curl -s "$url" | grep -Ex '.*type=.*(rss|rdf|atom).*' | sed 's/ //g')"
-	# echo FEEDS: "$feeds"
 	url="$(echo $url | sed 's|^\(https://[^/]*/\).*|\1|')"
-	# echo URL: $url
 
 	for rsspath in $feeds; do
-		# echo PTH: "$rsspath"
 		rsspath="$(echo $rsspath | sed -n "s|.*href=['\"]\([^'\"]*\)['\"].*|\1|p")"
-	# echo PATH: "$rsspath"
 	if echo "$rsspath" | grep "http" > /dev/null; then
 		link="$rsspath"
 	elif echo "$rsspath" | grep -E "^/" > /dev/null; then
@@ -33,7 +28,6 @@ getlink () {
 	fi
 	echo $link
 	done
-	# echo rsspath: $rsspath
 }
 
 getRedditRss() {
@@ -42,30 +36,29 @@ getRedditRss() {
 
 getYoutubeRss() {
 	local url="$1"
-
 	path=$(echo "$url" | sed -e 's|^http[s]*://||')
-
-	if echo "$path" | grep -qE "/channel/"; then
-		channel_id="$(echo $path | sed -r 's|.*channel/([^/]*).*|\1|')"
-		query="channel_id=${channel_id}"
-	# this doesn't work (no url on yt), the original extension seems to put the channel id here and use channel_id as a query
-	elif echo "$path" | grep -qE "/c/"; then
-		channel_id=$(echo "$path" | sed 's|.*/c/||')
-		query="user=${channel_id}"
-	elif echo "$path" | grep -qE "/user/"; then
-		user_id="$(echo $path | sed -r 's|.*user/([^/]*).*|\1|')"
-		query="user=${user_id}"
-	fi
-
-	# this thing may be cool but needs to add channel_id or user depending on the url
-	# channel_id="$(echo $path | sed -r 's{.*(channel|user|c)/([^/]*).*{\2{')"
-	# query="channel_id=${channel_id}"
-
-	if [ -n "$query" ]; then
-		feed="https://www.youtube.com/feeds/videos.xml?$query"
-	fi
-
+	case "$path" in
+		*"/channel/"*) channel_id="$(echo $path | sed -r 's|.*channel/([^/]*).*|\1|')" && feed="https://www.youtube.com/feeds/videos.xml?channel_id=${channel_id}" ;;
+		*"/c/"*|*"/user/"*)
+			feed=$(wget -q "$url" -O tmp_rssget_yt \
+			&& sed -n 's|.*\("rssUrl":"[^"]*\).*|\1|; p' tmp_rssget_yt \
+			| grep rssUrl \
+			| sed 's|"rssUrl":"||')
+			rm tmp_rssget_yt ;;
+		*"@"*) feed=$(wget -q "$url" -O tmp_rssget_yt \
+			&& sed -n 's|.*"\(https://www\.youtube\.com/feeds/videos\.xml?channel_id=[^"]*\)".*|\1|p' tmp_rssget_yt)
+			rm tmp_rssget_yt ;;
+		*"watch"*) channel_id=$(wget -q "$url" -O tmp_rssget_yt \
+			&& sed -n 's|.*"/channel/\([^"]*\)",.*|\1|p;' tmp_rssget_yt  | head -1)
+			feed="https://www.youtube.com/feeds/videos.xml?channel_id=${channel_id}"
+			rm tmp_rssget_yt ;;
+	esac
 	echo "$feed"
+}
+
+getTelegramRss() {
+	username=$(echo "$1" | sed 's|.*/t.me/||')
+	echo "https://rss-bridge.org/bridge01/?action=display&username=$username&bridge=TelegramBridge&format=Atom"
 }
 
 getVimeoRss() {
@@ -79,7 +72,6 @@ getVimeoRss() {
 }
 
 getGithubRss () {
-	# github_regex=/^(http(s)?:\/\/)?((w){3}.)?github\.com\/([a-zA-Z0-9](.+))\/([a-zA-Z0-9](.+))$/i;
 	local url="${1%/}"
 	if echo $url | grep -E "github.com/[^/]*/[a-zA-Z0-9].*" >/dev/null ; then
 		echo "${url}/commits.atom"
@@ -104,24 +96,25 @@ if [ -n "$1" ] ; then
 	url="$1"
 else
 	url="$(xclip -selection clipboard -o)"
-	[ -z "$url" ] && echo 'Provide a link as an argument or have it in clipboard' && exit 1
+	[ -z "$url" ] && echo "usage: $0 url 'tag1 tag2 tag3 # comment'" && exit 1
 fi
 
 declare -a list=()
 
-# edit this using vim or die
-yt_regex="^(http(s)?://)?((w){3}\.)?(youtube\.com|invidio\.us|invidious\.flokinet\.to|invidious\.materialio\.us|iv\.datura\.network|invidious\.perennialte\.ch|invidious\.fdn\.fr|invidious\.private\.coffee|invidious\.protokolla\.fi|invidious\.privacyredirect\.com|yt\.artemislena\.eu|yt\.drgnz\.club|invidious\.incogniweb\.net|yewtu\.be|inv\.tux\.pizza|invidious\.reallyaweso\.me|iv\.melmac\.space|inv\.us\.projectsegfau\.lt|inv\.nadeko\.net|invidious\.darkness\.services|invidious\.jing\.rocks|invidious\.privacydev\.net|inv\.in\.projectsegfau\.lt|invidious\.drgns\.space)/(channel|user|c).+"
+yt_regex="^(http(s)?://)?((w){3}\.)?(youtube\.com|invidio\.us|invidious\.flokinet\.to|invidious\.materialio\.us|iv\.datura\.network|invidious\.perennialte\.ch|invidious\.fdn\.fr|invidious\.private\.coffee|invidious\.protokolla\.fi|invidious\.privacyredirect\.com|yt\.artemislena\.eu|yt\.drgnz\.club|invidious\.incogniweb\.net|yewtu\.be|inv\.tux\.pizza|invidious\.reallyaweso\.me|iv\.melmac\.space|inv\.us\.projectsegfau\.lt|inv\.nadeko\.net|invidious\.darkness\.services|invidious\.jing\.rocks|invidious\.privacydev\.net|inv\.in\.projectsegfau\.lt|invidious\.drgns\.space)/(channel|user|c|@|watch).+"
 reddit_regex="^(http(s)?://)?((w){3}\.)?reddit\.com.*"
 vimeo_regex="^(http(s)?://)?((w){3}.)?vimeo\.com.*"
 if echo $url | grep -Ex "$yt_regex" >/dev/null ; then
 	list="$(getYoutubeRss "$url")"
 elif echo $url | grep -Ex "$reddit_regex" >/dev/null ; then
 	list="$(getRedditRss "$url")"
-# vimeo works without the custom function
+# vimeo actually works with getlink
 elif echo $url | grep -E "$vimeo_regex" >/dev/null ; then
 	list="$(getVimeoRss "$url")"
 elif echo $url | grep -E "github.com" >/dev/null ; then
 	list="$(getGithubRss "$url")"
+elif echo $url | grep -E "t.me" >/dev/null ; then
+	list="$(getTelegramRss "$url")"
 # gitlab also works with getlink
 elif echo $url | grep -E "gitlab.com/[a-zA-Z0-9].*" >/dev/null ; then
 	list="$(getGitlabRss "$url")"
@@ -132,4 +125,6 @@ else
 fi
 
 [ "$(echo "$list" | wc -l)" -eq 1 ] && chosen_link="$list" || chosen_link=$(printf '%s\n' "${list[@]}" | dmenu -p "Choose a feed:")
-rssadd "$chosen_link"
+tags="$2"
+ifinstalled rssadd && rssadd "$chosen_link" "$tags"
+echo "$chosen_link" "$tags"

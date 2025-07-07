@@ -93,6 +93,12 @@ cmd copyto ${{
 	notify-send "📋 File(s) copied." "File(s) copies to $dest."
 }}
 
+cmd blobdrop ${{
+	blobdrop $fx
+	# notify-send "📋 File(s) blobdropped."
+}}
+
+
 cmd setbg "$1"
 cmd bulkrename $vidir
 
@@ -120,7 +126,8 @@ map c push A<c-u> # new rename
 map I :rename; cmd-home # at the very beginning
 map i :rename # before extension
 map a :rename; cmd-right # after extension
-map B bulkrename
+map R bulkrename
+map B blobdrop
 map b $setbg $f
 
 map <c-e> down

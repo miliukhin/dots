@@ -24,7 +24,7 @@ mountedphones="$(grep "simple-mtpfs" /etc/mtab)"
 done)"
 
 # Check for drives.
-lsblkoutput="$(lsblk -rpo "uuid,name,type,size,label,mountpoint,fstype")"
+lsblkoutput="$(sudo lsblk -rpo "uuid,name,type,size,label,mountpoint,fstype")"
 # Get all LUKS drives
 allluks="$(echo "$lsblkoutput" | grep crypto_LUKS)"
 # Get a list of the LUKS drive UUIDs already decrypted.
@@ -99,7 +99,7 @@ case "$chosen" in
 		test -b "/dev/mapper/usb$num"
 
 		attemptmount || getmount
-		sudo -A mount "/dev/mapper/usb$num" "$mp" -o uid="$(id -u)",gid="$(id -g)"
+		sudo -A mount "/dev/mapper/usb$num" "$mp"
 		notify-send "🔓Decrypted drive Mounted." "$chosen decrypted and mounted to $mp."
 		;;
 

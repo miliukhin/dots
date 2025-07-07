@@ -1,9 +1,30 @@
 #!/bin/sh
-    wget --mirror \
+
+proxy=""
+
+while [ $# -gt 0 ]; do
+	case "$1" in
+		-t)
+			proxy="torsocks"
+			shift
+			;;
+		-*)
+			echo "Unknown option: $1"
+			exit 1
+			;;
+		*)
+			site=("$1")
+			shift
+			;;
+	esac
+done
+
+cd ~/lib/www/
+    $proxy wget --mirror \
      --convert-links \
      --adjust-extension \
      --page-requisites \
      --no-parent \
      --wait=0.1 \
      --random-wait \
-     "$1"
+     "$site"

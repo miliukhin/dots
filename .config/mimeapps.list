@@ -18,6 +18,4 @@ video/x-matroska=video.desktop
 video/mp4=video.desktop
 x-scheme-handler/lbry=lbry.desktop
 inode/directory=file.desktop
-# малята
-# x-scheme-handler/http=qutebrowser.desktop
-# x-scheme-handler/https=qutebrowser.desktop
+x-scheme-handler/mpv=mpv-link.desktop

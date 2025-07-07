@@ -9,7 +9,9 @@ setxkbmap -layout us,ua -option -option grp:alt_space_toggle
 setxkbmap -option caps:super,altwin:menu_win
 # When caps lock is pressed only once, treat it as escape.
 killall xcape 2>/dev/null ; xcape -e 'Super_L=Escape';
-# When control is pressed only once, treat it as a dollar sign.
-# xcape -e 'Control_R=Shift_L|4' ;
+# When control is pressed alone, treat it as a dollar sign.
+xcape -e 'Control_R=Shift_L|4' ;
 # Turn off caps lock if on since there is no longer a key for it.
 xset -q | grep -q "Caps Lock:\s*on" && xdotool key Caps_Lock
+# map > on qwertz keyboards to shift
+xmodmap -e 'keycode 94 = Shift_L'
