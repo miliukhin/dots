@@ -9,10 +9,14 @@ h   $HOME
 m   ${XDG_MUSIC_DIR:-$HOME/Music}
 mn  /mnt
 pp  ${XDG_PICTURES_DIR:-$HOME/Pictures}
+mm  ${XDG_PICTURES_DIR:-$HOME/Pictures/memes}
+me  ${XDG_PICTURES_DIR:-$HOME/media}
 wp  ${XDG_PICTURES_DIR:-$HOME/Pictures/wallpapers}
 sc  $HOME/.local/bin
 src $HOME/.local/src
 vv  ${XDG_VIDEOS_DIR:-$HOME/Videos}
-mil $HOME/projects/miliukhin.xyz
+gx $HOME/gxrecord
+aa $HOME/art
 doctemp $HOME/Templates/lpnu_doc_templates
 nav $HOME/Programs/Nav
+lb $HOME/lib

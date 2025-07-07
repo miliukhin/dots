@@ -43,11 +43,7 @@ case "$ext" in
 	h) sudo make install ;;
 	java) javac -d classes "$file" && java -cp classes "${1%.*}" ;;
 	m) octave "$file" ;;
-	md)	if  [ -x "$(command -v lowdown)" ]; then
-			lowdown --parse-no-intraemph "$file" -Tms | groff -mpdfmark -ms -kept -T pdf > "$base".pdf
-		elif [ -x "$(command -v groffdown)" ]; then
-			groffdown -i "$file" | groff -T pdf > "$base".pdf
-		else
+	md)	if (head -n8 "$file" | grep -qi 'latex') ; then
 			target="$(getcomproot "$file" || echo "$file")"
 			#pandoc -t ms --highlight-style=kate -s -o "$base".pdf "$file"
  			( head -n8 "$target" | grep -qi 'aspectratio:' ) && type="beamer"
@@ -65,37 +61,40 @@ case "$ext" in
 			elif [ "$type" = "xelatex" ]; then
 			pandoc -f markdown \
 				--pdf-engine=xelatex \
-				--template template_2 \
+				--template $UNI/.templates/settings/unidoc.latex \
 				--pdf-engine-opt=-shell-escape \
-				--highlight-style $XDG_DATA_HOME/pandoc/meow.theme \
+				--highlight-style $UNI/.templates/settings/code.theme  \
 				-V geometry:a4paper \
 				-V linkcolor:blue \
 				-V fontenc=T2A \
 				--citeproc \
 				-V geometry:margin=2cm,top=1.5cm \
-				-V mainfont="Linux Libertine" \
-				-V monofont="Iosevka Fixed Curly" \
-				-V fontsize=12pt -V lang=uk-UA -o "$base".pdf "$file"
+				-V lang=uk-UA -o "$base".pdf "$file"
 			else
 			pandoc -f markdown \
-				--template template_2 \
+				--template $UNI/.templates/settings/unidoc.latex \
 				--citeproc \
 				--pdf-engine=pdflatex \
 				--pdf-engine-opt=-shell-escape \
 				-V geometry:a4paper \
 				-V fontenc=T2A \
 				-V geometry:margin=2cm \
-				-V fontsize=12pt \
+				-V fontsize=10pt \
 				-V linkcolor:blue \
 				-o "$base".pdf "$file"
 			fi
 
+		elif  [ -x "$(command -v lowdown)" ]; then
+			lowdown --parse-no-intraemph "$file" -Tms | groff -mpdfmark -ms -kept -T pdf > "$base".pdf
+		elif [ -x "$(command -v groffdown)" ]; then
+			groffdown -i "$file" | groff -T pdf > "$base".pdf
 		fi ; ;;
 	mom) preconv "$file" | refer -PS -e | groff -mom -kept -T pdf > "$base".pdf ;;
 	ms) preconv "$file" | refer -PS -e | groff -me -ms -kept -T pdf > "$base".pdf ;;
 	org) emacs "$file" --batch -u "$USER" -f org-latex-export-to-pdf ;;
 	pas) fpc "$file" -o"$base" && "$base" ;;
 	php) php -n -f "$file" ;; # <++>
+	puml|plantuml) plantuml -tpng "$file" ;;
 	gnuplot|plt) gnuplot -p "$file" > "$base".pdf ;;
 	py) python "$file" ;;
 	r) Rscript "$file" ;;

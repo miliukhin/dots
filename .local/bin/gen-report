@@ -3,7 +3,7 @@
 # Copies one of the templates into current directory
 # and adjusts it based on the path, then opens in text editor
 [ "$1" = "help" ] && \
-echo "usage: genreport [<args>], if the path to active dir is as:
+echo "usage: ${0##*/} [<args>], if the path to active dir is as:
 	.../discipline/type/smth_number
 	.../discipline/type_number
 or manually: genreport [<discipline>] [<type>] [<number>]" && \
@@ -44,9 +44,47 @@ else
 	cp "$template_path/parts/h_report.md" "$filename"
 fi
 
-sed -i "s/NUMBER/$number/g;
-s/VARIANT/$variant/g;
-s/TYPE/\\$type_command/g;
-s/DISCIPLINE/$discipline/g" "$filename"
+## create body of listings and graphics
+
+codefiles=$(find . -regex '.*/*\.\(cpp\|xml\|go\|js\|cs\|ino\|c\|py\|sh\|java\)$')
+buildfiles=$(find . -regex '.*/*\(Makefile\|Dockerfile\)$')
+outs=$(find . -maxdepth 2 -iname out)
+
+for file in $codefiles ; do
+	ext="${file##*.}"
+	[ $ext = "ino" ] && ext=cpp
+	listings=$listings"### Файл $file: \n\\\inputminted{$ext}{$file}\n\n"
+done
+
+for file in $buildfiles ; do
+	ext=text
+	listings=$listings"### Файл $file: \n\\\inputminted{$ext}{$file}\n\n"
+done
+
+
+for file in $outs ; do
+	ext="${file##*.}"
+	listings=$listings"### Вивід $file: \n\\\inputminted{text}{$file}\n\n"
+done
+
+
+echo -e $listings
+
+graphics=$(find . -regex '.*/*\.\(jpg\|png\|svg\)$')
+
+for file in $graphics ; do
+	ext="${file##*.}"
+	figures=$figures"![<++>]($file)\n\n"
+done
+
+echo -e $figures
+
+body=$listings"\n\\\clearpage\n# Рисунки\n$figures"
+
+sed -i "s|NUMBER|$number|g;
+s|VARIANT|$variant|g;
+s|TYPE|\\$type_command|g;
+s|BODY|${body}|g;
+s|DISCIPLINE|$discipline|g" "$filename"
 
 $EDITOR "$filename"

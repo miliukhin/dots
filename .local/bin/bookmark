@@ -1,20 +1,26 @@
 #!/bin/sh
 
-if [ $1 = clipboard ]; then
+getbookmark() {
 	bookmark="$(xclip -selection clipboard -o)"
-	file="$HOME/.local/share/larbs/snippets"
-elif [ $1 = song ]; then
-	# useful when listening to a web radio
-	bookmark="$(mpc | sed "/^volume:/d;s/\\&/&amp;/g;s/\\[paused\\].*/⏸/g;/\\[playing\\].*/d;/^ERROR/Q")"
-	file="$HOME/.local/share/larbs/songlog"
-else
-	exit 1
-fi
+	tags=$(echo "" | dmenu -p "Enter bookmark tags (ENTER to save without tags)")
+}
 
-if grep -q "^$bookmark$" "$file"; then
-	notify-send "Добре, але..." "Це вже записане!"
-else
-	notify-send "Додана закладка!" "$bookmark записана у файл"
-	echo "$bookmark" >> "$file"
-	echo "$bookmark" | xclip -selection clipboard -i
-fi
+write_to_file () {
+	if grep -q -E "^$bookmark( |$)" "$file"; then
+		notify-send "Already bookmarked $bookmark!"
+	else
+		notify-send "Bookmarked $bookmark"
+		echo "$bookmark" "$tags" >> "$file"
+		echo "$bookmark" | xclip -selection clipboard -i
+	fi
+}
+
+case "$(printf "📜 rss\n🌍 url\n🌍📜 site (rss + url)\n🎵 song\n🗣️ quote" | dmenu -i -p 'Bookmark: ')" in
+	'🌍📜 site (rss + url)') getbookmark && rssget "$bookmark" "$tags" && file="$HOME/.local/share/larbs/snippets" && write_to_file ;;
+	'📜 rss') getbookmark && rssget "$bookmark" "$tags" ;;
+	'🌍 url') getbookmark && file="$HOME/.local/share/larbs/snippets" && write_to_file ;;
+	'🗣️ quote') getbookmark && tags=";; $tags" && file="$HOME/.local/share/larbs/zingers" && write_to_file ;;
+	'🎵 song') bookmark="$(mpc | sed "/^volume:/d;s/\\&/&amp;/g;s/\\[paused\\].*/⏸/g;/\\[playing\\].*/d;/^ERROR/Q")"
+		file="$HOME/.local/share/larbs/songlog" && write_to_file ;;
+	*) exit 1 ;;
+esac

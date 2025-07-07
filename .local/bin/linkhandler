@@ -6,6 +6,23 @@
 # if a music file or pdf, it will download,
 # otherwise it opens link in browser.
 
+# Truncates overly long file names some soydev sites generate
+truncate_filename() {
+    local file="$1"
+    local max_length=20
+
+    local base=$(base "$file")
+    local suff="${base##*.}"
+    local fname="${base%.*}"
+
+    if [ ${#fname} -gt $max_length ]; then
+        local newbase=$(echo "${fname:0:$(($max_length - ${#suff} - 1))}")
+        echo "${newbase}.${suff}"
+    else
+        echo "$base"
+    fi
+}
+
 if [ -z "$1" ]; then
 	notify-send "no url given"
 else
@@ -15,14 +32,17 @@ fi
 if [[ "$url" != "" ]]; then
 
 case "$url" in
-	*mkv|*webm|*mp4|*youtube.com/watch*|*youtube.com/playlist*|*youtube.com/shorts*|*youtu.be*|*hooktube.com*|*bitchute.com*|*videos.lukesmith.xyz*|*odysee.com*)
+	*mkv|*\.webm*|*\.mp4*|*youtube.com/watch*|*youtube.com/playlist*|*youtube.com/shorts*|*youtu.be*|*hooktube.com*|*bitchute.com*|*videos.lukesmith.xyz*|*odysee.com*)
 		setsid -f mpv -quiet "$url" >/dev/null 2>&1 ;;
-	*png|*jpg|*jpe|*jpeg|*gif)
-		curl -sL "$url" > "/tmp/$(echo "$url" | sed "s/.*\///;s/%20/ /g")" && nsxiv -a "/tmp/$(echo "$url" | sed "s/.*\///;s/%20/ /g")"  >/dev/null 2>&1 & ;;
+	*png|*jpg|*jpe|*jpeg|*gif|*webp)
+		fname="/tmp/$(echo "$(truncate_filename "$url")" | sed "s/.*\///;s/%20/ /g")"
+		curl -sL "$url" > "$fname" && nsxiv -a "$fname"  >/dev/null 2>&1 & ;;
 	*pdf|*cbz|*cbr)
 		curl -sL "$url" > "/tmp/$(echo "$url" | sed "s/.*\///;s/%20/ /g")" && zathura "/tmp/$(echo "$url" | sed "s/.*\///;s/%20/ /g")"  >/dev/null 2>&1 & ;;
 	*mp3|*flac|*opus|*mp3?source*)
 		qndl "$url" 'curl -LO'  >/dev/null 2>&1 ;;
+	*torrent|magnet*)
+		transadd "$url" ;;
 	*)
 		[ -f "$url" ] && setsid -f "$TERMINAL" -e "$EDITOR" "$url" >/dev/null 2>&1 || setsid -f "$BROWSER" "$url" >/dev/null 2>&1
 esac

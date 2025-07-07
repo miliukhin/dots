@@ -22,46 +22,21 @@ Plug 'vimwiki/vimwiki'
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-commentary'
 Plug 'ap/vim-css-color'
-Plug 'ivanesmantovich/xkbswitch.nvim' " so I don't have to switch language manually when exiting insert mode
-	" Plug 'ycm-core/YouCompleteMe'
-	"Plug 'neoclide/coc.nvim', {'branch': 'release'}
-	Plug 'cdelledonne/vim-cmake'
-	Plug 'skywind3000/asyncrun.vim'
-	Plug 'habamax/vim-godot'
-	Plug 'echuraev/translate-shell.vim'
-" Guitar
-	Plug 'onjin/vim-guitar-tab-syntax'
-	" Plug 'matt-snider/vim-guitar-tab'
-	" Plug 'https://github.com/kanderoo/vim-tabs'
-" sc-im
-	Plug 'mipmip/vim-scimark'
-	" Plug 'mbajobue/scim-latex-tables'
-	" Plug 'gaoDean/vimscim.nvim'
-" Misc
-	Plug 'dylanaraps/wal.vim'
-	" Plug 'nekonako/xresources-nvim'
-	Plug 'morhetz/gruvbox'
-	Plug 'flniu/er.vim'
-	" Plug 'dinhhuy258/vim-database', {'branch': 'master', 'do': ':UpdateRemotePlugins'}
+Plug 'ivanesmantovich/xkbswitch.nvim' " keyboard layout autoswitching
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'echuraev/translate-shell.vim'
+Plug 'onjin/vim-guitar-tab-syntax'
+Plug 'matt-snider/vim-guitar-tab'
+Plug 'https://github.com/kanderoo/vim-tabs'
+Plug 'mipmip/vim-scimark'
+Plug 'morhetz/gruvbox'
+Plug 'stevearc/vim-arduino'
 call plug#end()
 
-autocmd VimEnter * hi Normal guibg=NONE
-let modus = "dark"
-
-if modus=="dark"
-	" colorscheme wal
-	set termguicolors
-	colorscheme lantern
-else
-	" let g:gruvbox_transparent_bg = 1
-	set termguicolors
-	colorscheme gruvbox
-	set bg=light
-endif
+colorscheme gruvbox
+hi! Normal guibg=NONE ctermbg=NONE
 
 set title
-" set bg=light
-set go=a
 set mouse=a
 set nohlsearch
 set clipboard+=unnamedplus
@@ -71,12 +46,7 @@ set laststatus=0
 set noshowcmd
 set ignorecase
 set smartcase
-"set tabstop=4
-"set shiftwidth=4
-" set linebreak
-" set cursorline
-" set incsearch
-" set complete+=kspell " 'ctrl-x s' ctrl-n[ext] ctrl-p[revious] complete words
+set complete+=kspell " 'ctrl-x s' ctrl-n[ext] ctrl-p[revious] complete words
 
 " Some basics:
 	nnoremap c "_c
@@ -94,7 +64,7 @@ set smartcase
 " Goyo plugin makes text more readable when writing prose:
 	map <leader>f :Goyo \| set bg=light \| set linebreak<CR>
 " Spell-check set to <leader>o, 'o' for 'orthography':
-	map <leader>o :setlocal spell! spelllang=en_us,uk<CR>
+	map <leader>o :setlocal spell! spelllang=en_us,uk,ru<CR>
 " Splits open at the bottom and right, which is non-retarded, unlike vim defaults.
 	set splitbelow splitright
 
@@ -156,6 +126,8 @@ set smartcase
 				\ 'path': '~/.local/share/nvim/vimwiki',
 				\ 'syntax': 'markdown',
 				\ 'ext': '.md',
+				\ 'path_html': '~/.local/share/nvim/vimwiki/',
+				\ 'custom_wiki2html': 'vimwiki2pdf'
 				\}
 
 	let wiki_2 = {
@@ -167,16 +139,6 @@ set smartcase
 				\ 'custom_wiki2html': 'vimwiki2html'
 				\}
 	let g:vimwiki_list = [wiki_1, wiki_2]
-
-	" let g:vimwiki_list = [{
-	" 			\ 'path': '~/.local/share/nvim/vimwiki',
-	" 			\ 'path_html': '~/.local/share/nvim/vimwiki/_site',
-	" 			\ 'diary_rel_path': '.diary/',
-	" 			\ 'syntax': 'markdown',
-	" 			\ 'ext': '.md',
-	" 			\ 'css_name': 'style.css',
-	" 			\ 'custom_wiki2html': 'vimwiki2html'
-	" 			\}]
 
 	autocmd BufRead,BufNewFile /tmp/calcurse*,~/.calcurse/notes/* set filetype=markdown
 	autocmd BufRead,BufNewFile *.ms,*.me,*.mom,*.man set filetype=groff
@@ -202,9 +164,7 @@ set smartcase
 " When shortcut files are updated, renew bash and ranger configs with new material:
 	autocmd BufWritePost bm-files,bm-dirs !shortcuts
 " Run xrdb whenever Xdefaults or Xresources are updated.
-	" au BufRead,BufNewFile *.xresources		set filetype=xdefaults
-	" autocmd BufRead,BufNewFile Xresources,Xdefaults,xresources,xdefaults set filetype=xdefaults
-	autocmd BufRead,BufNewFile *Xresources,*Xdefaults,*xresources,*xdefaults set filetype=xdefaults " додав тут і далі *
+	autocmd BufRead,BufNewFile *Xresources,*Xdefaults,*xresources,*xdefaults set filetype=xdefaults
 	autocmd BufWritePost Xresources,Xdefaults,*xresources,xdefaults !xrdb %
 " Recompile dwmblocks on config edit.
 	autocmd BufWritePost ~/.local/src/dwmblocks/config.h !cd ~/.local/src/dwmblocks/; sudo make install && { killall -q dwmblocks;setsid -f dwmblocks }
@@ -238,64 +198,54 @@ nnoremap <leader>h :call ToggleHiddenAll()<CR>
 " if typed fast without the timeout.
 silent! source ~/.config/nvim/shortcuts.vim
 
-" Cmake-Vim
-
-let g:cmake_link_compile_commands = 1 " for coc ??
-let g:cmake_root_markers = ['CMakeLists']
-" let g:cmake_build_dir_location = '.'
-nmap <leader>cg :CMakeGenerate<cr>
-nmap <leader>cb :CMakeBuild<cr>
-
-" Godot
-
-let g:godot_executable = '/usr/bin/godot4-mono'
-
-if !has_key( g:, 'ycm_language_server' )
-  let g:ycm_language_server = []
-endif
-
-" Language servers
-
-let g:ycm_language_server += [
-  \   {
-  \     'name': 'godot',
-  \     'filetypes': [ 'gdscript' ],
-  \     'project_root_files': [ 'project.godot' ],
-  \     'port': 6008
-  \   }
-  \ ]
-let g:ycm_language_server +=
-            \ [
-            \   {
-            \       'name': 'bash',
-            \       'cmdline': [ 'bash-language-server', 'start' ],
-            \       'filetypes': [ 'sh' ],
-            \   }
-            \ ]
-let g:ycm_language_server +=
-            \ [
-            \   {
-            \       'name': 'tex',
-            \       'cmdline': [ 'texlab', '-v' ],
-            \       'filetypes': [ 'tex' ],
-            \   }
-            \ ]
-
-" let g:ycm_filetype_blacklist={'notes': 1, 'markdown': 1, 'unite': 1, 'tagbar': 1, 'pandoc': 1, 'qf': 1, 'vimwiki': 1, 'text': 1, 'infolog': 1, 'mail': 1}
-" g:ycm_filetype_blacklist={'unite': 1, 'tagbar': 1, 'pandoc': 1, 'qf': 1, 'vimwiki': 1, 'text': 1, 'infolog': 1, 'mail': 1}
-
 " Auto-switching keyboard layout to retain control while exiting insert mode
-lua require('xkbswitch').setup()
+	lua require('xkbswitch').setup()
 
 " toggle concealment
 	nnoremap <leader>a :let &cole=(&cole == 2) ? 0 : 2 <bar> echo 'conceallevel ' . &cole <CR>
 
+" Arduinos
+	nnoremap <buffer> <leader>aa <cmd>ArduinoAttach<CR>
+	nnoremap <buffer> <leader>av <cmd>w \| ArduinoVerify<CR>
+	nnoremap <buffer> <leader>au <cmd>w \| ArduinoUpload<CR>
+	nnoremap <buffer> <leader>aus <cmd>w \| ArduinoUploadAndSerial<CR>
+	nnoremap <buffer> <leader>as <cmd>ArduinoSerial<CR>
+	nnoremap <buffer> <leader>ab <cmd>ArduinoChooseBoard<CR>
+	nnoremap <buffer> <leader>ap <cmd>ArduinoChooseProgrammer<CR>
+
 let g:trans_default_direction=":uk"
 nmap <leader>t :Trans<cr>
-
-silent! source ~/.config/nvim/cringe.vim
 
 map ,I :norm I
 map ,A :norm A
 
-set hlsearch
+au BufRead,BufNewFile *.tab set filetype=guitartab
+
+" use <tab> to trigger completion and navigate to the next complete item
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+inoremap <silent><expr> <Tab>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr> <Tab> coc#pum#visible() ? coc#pum#next(1) : "\<Tab>"
+inoremap <expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+
+" Disable completion for some file types
+function! s:disable_coc_for_type()
+  if index(g:coc_filetypes_enable, &filetype) == -1
+    :silent! CocEnable
+  else
+    :silent! CocDisable
+  endif
+endfunction
+augroup CocGroup
+ autocmd!
+ autocmd BufNew,BufEnter,BufAdd,BufCreate * call s:disable_coc_for_type()
+augroup end
+let g:coc_filetypes_enable = ['unite', 'tagbar', 'pandoc', 'qf', 'vimwiki', 'text', 'infolog', 'mail', 'md']
