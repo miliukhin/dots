@@ -25,8 +25,7 @@ Plug 'ap/vim-css-color'
 Plug 'ivanesmantovich/xkbswitch.nvim' " keyboard layout autoswitching
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'echuraev/translate-shell.vim'
-Plug 'onjin/vim-guitar-tab-syntax'
-Plug 'matt-snider/vim-guitar-tab'
+Plug 'matt-snider/vim-guitar-tab' " press enter to vizualize chords
 Plug 'https://github.com/kanderoo/vim-tabs'
 Plug 'mipmip/vim-scimark'
 Plug 'morhetz/gruvbox'
@@ -120,26 +119,7 @@ set complete+=kspell " 'ctrl-x s' ctrl-n[ext] ctrl-p[revious] complete words
 	map <leader>vdg :VimwikiDiaryGenerateLinks<CR>
 	map <leader>vwh :Vimwiki2HTML<CR>
 	map <leader>vwd :VimwikiDeleteFile<CR>
-	" let g:vimwiki_list = [{'path': '~/.local/share/nvim/vimwiki', 'syntax': 'markdown', 'ext': '.md'}]
-
-	let wiki_1 = {
-				\ 'path': '~/.local/share/nvim/vimwiki',
-				\ 'syntax': 'markdown',
-				\ 'ext': '.md',
-				\ 'path_html': '~/.local/share/nvim/vimwiki/',
-				\ 'custom_wiki2html': 'vimwiki2pdf'
-				\}
-
-	let wiki_2 = {
-				\ 'path': '~/.local/share/nvim/vimwiki/linkwiki',
-				\ 'path_html': '~/.local/share/nvim/vimwiki/linkwiki/_site',
-				\ 'syntax': 'markdown',
-				\ 'ext': '.md',
-				\ 'css_name': 'style.css',
-				\ 'custom_wiki2html': 'vimwiki2html'
-				\}
-	let g:vimwiki_list = [wiki_1, wiki_2]
-
+	let g:vimwiki_list = [{'path': '~/.local/share/nvim/vimwiki', 'syntax': 'markdown', 'ext': '.md', 'path_html': '~/.local/share/nvim/vimwiki/', 'custom_wiki2html': 'vimwiki2pdf'}]
 	autocmd BufRead,BufNewFile /tmp/calcurse*,~/.calcurse/notes/* set filetype=markdown
 	autocmd BufRead,BufNewFile *.ms,*.me,*.mom,*.man set filetype=groff
 	autocmd BufRead,BufNewFile *.tex set filetype=tex
@@ -218,8 +198,6 @@ nmap <leader>t :Trans<cr>
 
 map ,I :norm I
 map ,A :norm A
-
-au BufRead,BufNewFile *.tab set filetype=guitartab
 
 " use <tab> to trigger completion and navigate to the next complete item
 function! CheckBackspace() abort
