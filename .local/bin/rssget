@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Searches the website for RSS feeds and adds them to newsboat url list. Can
 # also find hidden RSS feeds on various websites, namely Youtube, Reddit,
@@ -49,7 +49,7 @@ getYoutubeRss() {
 			&& sed -n 's|.*"\(https://www\.youtube\.com/feeds/videos\.xml?channel_id=[^"]*\)".*|\1|p' tmp_rssget_yt)
 			rm tmp_rssget_yt ;;
 		*"watch"*) channel_id=$(wget -q "$url" -O tmp_rssget_yt \
-			&& sed -n 's|.*"/channel/\([^"]*\)",.*|\1|p;' tmp_rssget_yt  | head -1)
+			&& sed -n 's|.*"/channel/\([^"]*\)",.*|\1|p;' tmp_rssget_yt  | head -1 | sed 's|/about||;')
 			feed="https://www.youtube.com/feeds/videos.xml?channel_id=${channel_id}"
 			rm tmp_rssget_yt ;;
 	esac
