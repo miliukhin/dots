@@ -39,7 +39,7 @@ screencast() { \
 	-r 24 \
 	-f alsa -thread_queue_size 1024 -i default \
 	-c:v h264 \
-	-crf 0 -preset ultrafast -c:a aac \
+	-crf 28 -preset ultrafast -c:a aac \
 	"$HOME/screencast-$(date '+%y%m%d-%H%M-%S').mp4" &
 	echo $! > /tmp/recordingpid
 	updateicon "⏺️🎙️"

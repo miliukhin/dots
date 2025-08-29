@@ -25,13 +25,9 @@ uni() {
   dir=$(find ~/Documents/uni/ -type d 2>/dev/null | fzf +m) && cd "$dir" && lfcd || return
 }
 
-canv () {
-	canved $1 -o $1
-}
-
 ytf () {
 	export FZF_DEFAULT_OPTS="--layout=default --height 100%"
-	ytfzf  --pages=3 -t -l "$1"
+	ytfzf --scrape=yt --video-pref='bestvideo[height<=?720]' --pages=3 -t -l "$1"
 	export FZF_DEFAULT_OPTS="--layout=reverse --height 40%"
 }
 

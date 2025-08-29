@@ -11,7 +11,7 @@ truncate_filename() {
     local file="$1"
     local max_length=20
 
-    local base=$(base "$file")
+    local base=$(basename "$file")
     local suff="${base##*.}"
     local fname="${base%.*}"
 
