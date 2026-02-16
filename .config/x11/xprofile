@@ -9,7 +9,7 @@ xrdb "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources" & xrdbpid=$!	# use Xreso
 remaps &		# run the remaps script, switching caps/esc and more; check it for more info
 xinput disable 'Wacom ISDv4 E6 Finger' &
 
-autostart="mpd dunst unclutter pipewire xcompmgr xbindkeys"
+autostart="mpd dunst unclutter pipewire xcompmgr xbindkeys clipmenud"
 ( sctd -h >/dev/null ) && sctd --latitude 49.8407 --longitude 24.0334 2>&1 &
 
 for program in $autostart; do

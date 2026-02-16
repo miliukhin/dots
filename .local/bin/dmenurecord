@@ -6,6 +6,7 @@
 # `$0 video`: Record only screen
 # `$0 audio`: Record only audio
 # `$0 kill`: Kill existing recording
+# `$0 killdel`: Kill existing recording and delete it
 #
 # If there is already a running instance, user will be prompted to end it.
 
@@ -26,6 +27,26 @@ killrecording() {
 	# even after SIGTERM, ffmpeg may still run, so SIGKILL it.
 	sleep 3
 	kill -9 "$recpid"
+	exit
+	}
+
+asktodel() { \
+	response=$(printf "Yes\\nNo" | dmenu -i -p "Delete recording?") &&
+	[ "$response" = "Yes" ] &&  killdel || killrecording
+	}
+
+killdel() {
+	recpid="$(cat /tmp/recordingpid)"
+	file="$(ps aux | grep -m 1 "$recpid" | sed 's/^'$USER'[^/]*//g')"
+	# kill with SIGTERM, allowing finishing touches.
+	kill -15 "$recpid"
+	rm -f /tmp/recordingpid
+	updateicon ""
+	pkill -RTMIN+9 "${STATUSBAR:-dwmblocks}"
+	# even after SIGTERM, ffmpeg may still run, so SIGKILL it.
+	sleep 3
+	kill -9 "$recpid"
+	rm "$file"
 	exit
 	}
 
@@ -136,5 +157,6 @@ case "$1" in
 	video) video;;
 	*selected) videoselected;;
 	kill) killrecording;;
+	killdel) asktodel ;;
 	*) ([ -f /tmp/recordingpid ] && asktoend && exit) || askrecording;;
 esac

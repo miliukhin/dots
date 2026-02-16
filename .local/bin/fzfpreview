@@ -39,7 +39,7 @@ fi
 
 # Set fzf default options (preview command, refresh on terminal resize, show header)
 export FZF_DEFAULT_OPTS="\
---preview 'fzf-file2preview.sh {} $image_preview $tmp_img $tmp_ueberzug_file'
+--preview 'fzf-file2preview {} $image_preview $tmp_img $tmp_ueberzug_file'
 --bind 'resize:refresh-preview' --bind 'focus:transform-header:file --brief {}'
 --layout=reverse
 "

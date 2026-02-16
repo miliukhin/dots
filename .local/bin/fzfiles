@@ -1,0 +1,4 @@
+#!/bin/sh
+# pick a directory with fzf and run fzfpreview in it
+
+dir=$(find .  -maxdepth 2 -not -path '*/.*' -type d,l | fzf) && cd "$dir" && fzfpreview

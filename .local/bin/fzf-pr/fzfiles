@@ -1,4 +1,0 @@
-#!/bin/sh
-
-dir=$(find .  -maxdepth 2 -not -path '*/.*' -type d,l | fzf)
-selected=$(cd "$dir" && fzf-pr)
