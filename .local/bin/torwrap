@@ -5,11 +5,3 @@ ifinstalled tremc transmission-cli || exit
 ! pidof transmission-daemon >/dev/null && transmission-daemon && notify-send "Starting torrent daemon..."
 
 $TERMINAL -e tremc --skip-version-check; pkill -RTMIN+7 "${STATUSBAR:-dwmblocks}"
-
-#!/bin/sh
-
-# ifinstalled stig transmission-cli || exit 1
-
-# ! pidof transmission-daemon >/dev/null && transmission-daemon && notify-send "Starting torrent daemon..."
-
-# $TERMINAL -e stig; pkill -RTMIN+7 "${STATUSBAR:-dwmblocks}"
