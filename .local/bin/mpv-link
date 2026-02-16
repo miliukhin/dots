@@ -1,0 +1,8 @@
+#!/bin/sh
+# script to handle URL scheme mpv://. I have a violentmonkey js script which
+# rewrites youtube urls as mpv:// urls, so when I click them, they are handled
+# by this script, as specified in mpv-link.desktop file, and played in mpv
+
+url=$(echo "$1" | sed 's/mpv://;' )
+notify-send "Playing $url"
+setsid -f mpv --quiet "$url"
