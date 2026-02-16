@@ -5,7 +5,6 @@
 # If you don't plan on reverting to bash, you can remove the link in ~/.profile
 # to clean up.
 
-export SITE="$HOME/projects/miliukhin.xyz"
 export UNI="$HOME/Documents/uni"
 export BIB="$HOME/Documents/bibliography.bib"
 export MANPAGER='nvim +Man!'

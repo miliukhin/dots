@@ -29,7 +29,8 @@ filename="${lname}_${group}_${work_type}_${number}.md"
 [ "$discipline" = "signals" ] && filename="Miliukhin_PP-24_${work_type}_${number}.md"
 
 case "$work_type" in
-	lab*) echo LAB ;;
+	lab*) echo LAB && usetitlepage=true ;;
+	pract*) echo pract && usetitlepage=true ;;
 	pres*) usebeamer=true ;;
 	rgr*) usetitlepage=true ;;
 esac;

@@ -17,6 +17,4 @@ src $HOME/.local/src
 vv  ${XDG_VIDEOS_DIR:-$HOME/Videos}
 gx $HOME/gxrecord
 aa $HOME/art
-doctemp $HOME/Templates/lpnu_doc_templates
-nav $HOME/Programs/Nav
 lb $HOME/lib

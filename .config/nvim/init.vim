@@ -23,18 +23,17 @@ Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-commentary'
 Plug 'ap/vim-css-color'
 Plug 'ivanesmantovich/xkbswitch.nvim' " keyboard layout autoswitching
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'echuraev/translate-shell.vim'
 Plug 'matt-snider/vim-guitar-tab' " press enter to vizualize chords
 Plug 'https://github.com/kanderoo/vim-tabs'
 Plug 'mipmip/vim-scimark'
-Plug 'morhetz/gruvbox'
 Plug 'stevearc/vim-arduino'
 call plug#end()
 
-colorscheme gruvbox
 hi! Normal guibg=NONE ctermbg=NONE
 
+set notermguicolors
+colorscheme vim
 set title
 set mouse=a
 set nohlsearch
@@ -75,6 +74,15 @@ set complete+=kspell " 'ctrl-x s' ctrl-n[ext] ctrl-p[revious] complete words
     else
         let NERDTreeBookmarksFile = '~/.vim' . '/NERDTreeBookmarks'
     endif
+
+" vim-airline
+	if !exists('g:airline_symbols')
+		let g:airline_symbols = {}
+	endif
+	let g:airline_symbols.colnr = ' C:'
+	let g:airline_symbols.linenr = ' L:'
+	let g:airline_symbols.maxlinenr = ' '
+	let g:airline#extensions#whitespace#symbol = '!'
 
 " Shortcutting split navigation, saving a keypress:
 	map <C-h> <C-w>h
@@ -191,32 +199,3 @@ nmap <leader>t :Trans<cr>
 
 map ,I :norm I
 map ,A :norm A
-
-" use <tab> to trigger completion and navigate to the next complete item
-function! CheckBackspace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-inoremap <silent><expr> <Tab>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
-inoremap <expr> <Tab> coc#pum#visible() ? coc#pum#next(1) : "\<Tab>"
-inoremap <expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
-
-" Make <CR> to accept selected completion item or notify coc.nvim to format
-inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
-
-" Disable completion for some file types
-function! s:disable_coc_for_type()
-  if index(g:coc_filetypes_enable, &filetype) == -1
-    :silent! CocEnable
-  else
-    :silent! CocDisable
-  endif
-endfunction
-augroup CocGroup
- autocmd!
- autocmd BufNew,BufEnter,BufAdd,BufCreate * call s:disable_coc_for_type()
-augroup end
-let g:coc_filetypes_enable = ['unite', 'tagbar', 'pandoc', 'qf', 'vimwiki', 'text', 'infolog', 'mail', 'md']

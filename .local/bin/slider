@@ -9,7 +9,8 @@
 # Application cache if not stated elsewhere.
 cache="${XDG_CACHE_HOME:-$HOME/.cache}/slider"
 
-while getopts "hvrpi:c:a:o:d:f:t:e:x:s:" o; do case "${o}" in
+while getopts "uhvrpi:c:a:o:d:f:t:e:x:s:" o; do case "${o}" in
+	u) unify=True ;;
 	c) bgc="$OPTARG" ;;
 	t) fgc="$OPTARG" ;;
 	f) font="$OPTARG" ;;
@@ -42,6 +43,7 @@ while getopts "hvrpi:c:a:o:d:f:t:e:x:s:" o; do case "${o}" in
   -d  tmp directory
   -r  rerun imagemagick commands even if done previously (in case files or background has changed)
   -p  purge old build files instead of running
+  -u  unify (render with a constant framerate)
   -v  be verbose" && exit 1
 
 esac done
@@ -120,6 +122,8 @@ if [ -n "${audio+x}" ]; then
 else
 	ffmpeg -hide_banner -y -f concat -safe 0 -i "$prepfile" -vsync vfr -c:v libx264 -pix_fmt yuv420p "$outfile"
 fi
+
+[ -n "${unify+x}" ] && ffmpeg -i "$outfile" -vf "fps=24" -c:v libx264 -preset ultrafast -c:a copy "${outfile}_fixedfps.mp4" && rm "$outfile" && mv "${outfile}_fixedfps.mp4" "$outfile"
 
 # Might also try:
 # -vf "fps=${fps:-24},format=yuv420p" "$outfile"

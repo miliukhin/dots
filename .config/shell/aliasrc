@@ -13,18 +13,10 @@ for command in mount umount sv pacman updatedb su shutdown poweroff reboot ; do
 	alias $command="sudo $command"
 done; unset command
 
-# se() { cd ~/.local/bin; $EDITOR $(fzf) ;}
-se() {
-	choice="$(find ~/.local/bin -mindepth 1 -printf '%P\n' | fzf)"
-	[ -f "$HOME/.local/bin/$choice" ] && $EDITOR "$HOME/.local/bin/$choice";
-}
+se() { cd ~/.local/bin; $EDITOR $(fzf) ;}
 vf() { fzf | xargs -r -I % $EDITOR % ; }
 f() { fzf | xargs -r -I % mimeopen -n % ; }
-uni() {
-  # local dir
-  dir=$(find ~/Documents/uni/ -type d 2>/dev/null | fzf +m) && cd "$dir" && lfcd || return
-}
-
+uni() { dir=$(find ~/Documents/uni/ -type d 2>/dev/null | fzf +m) && cd "$dir" && lfcd || return }
 ytf () {
 	export FZF_DEFAULT_OPTS="--layout=default --height 100%"
 	ytfzf --scrape=yt --video-pref='bestvideo[height<=?720]' --pages=3 -t -l "$1"
@@ -39,16 +31,13 @@ alias \
 	bc="bc -ql" \
 	rsync="rsync -vrPlu" \
 	mkd="mkdir -pv" \
-	yt="yt-dlp -o '%(title)s.%(ext)s' --embed-metadata -i" \
-	ytv="yt -f 'bestvideo[height<=?768]+bestaudio/best'" \
-	yts="yt -f 'bestvideo[height<=?768]+bestaudio/best' -o '%(upload_date>%Y-%m-%d)s.%(title)s.%(ext)s' --embed-metadata -i" \
+	yt="yt-dlp -f 'bestvideo[height<=?720]+(bestaudio[format_note*=original]/bestaudio[format_note*=Default])/bestaudio/best' -o '%(title)s.%(ext)s' --embed-metadata -i" \
 	yta="yt -x -f bestaudio/best" \
+	yts="ytv -o '%(upload_date>%Y-%m-%d)s.%(title)s.%(ext)s' --embed-metadata -i" \
 	ytt="yt --skip-download --write-thumbnail" \
 	ytfzf="ytfzf  --pages=3 -t -l" \
 	ffmpeg="ffmpeg -hide_banner" \
 	info="info --vi-keys"
-# mkd make parent dir
-# cp, mv ask to overwrite instead overwriting by default
 
 # Colorize commands when possible.
 alias \
@@ -82,12 +71,7 @@ alias \
 	ref="shortcuts >/dev/null; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc ; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/zshnameddirrc" \
 	weath="less -S ${XDG_CACHE_HOME:-$HOME/.cache}/weatherreport" \
 	bq='JAVA_TOOL_OPTIONS="-Dglass.gtk.uiScale=1.4 -XX:MaxRAM=4g" bisq-desktop' \
-	hugg="hugo server --noHTTPCache --disableFastRender" \
+	hug="hugo server --noHTTPCache --disableFastRender" \
 	lynx="lynx --display_charset=utf-8" \
-	sm='librewolf -p youtuber' \
 	gst='git status --untracked-files=no' \
-	trans='trans -b --no-ansi' \
-	lopdf='libreoffice --convert-to pdf' \
-	cowsize='qemu-img resize' \
-	wn='sdcv -u WordNet' \
-	cambuk='cambridge-cli -language ukrainian'
+	trans='trans -b --no-ansi'
