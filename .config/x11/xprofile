@@ -4,6 +4,7 @@
 # If you use startx/xinit like a Chad, this file will also be sourced.
 
 xrandr --dpi 96 		# Set DPI. User may want to use a larger number for larger screens.
+displaydetect 	 		# use only the external display if there is one
 setbg & 			# set the background with the `setbg` script
 xrdb "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources" & xrdbpid=$!	# use Xresources colors/settings
 remaps &		# run the remaps script, switching caps/esc and more; check it for more info

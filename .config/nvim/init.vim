@@ -36,6 +36,7 @@ set notermguicolors
 colorscheme vim
 set title
 set mouse=a
+set bg=light
 set nohlsearch
 set clipboard+=unnamedplus
 set noshowmode

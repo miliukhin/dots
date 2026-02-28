@@ -33,7 +33,7 @@ alias \
 	mkd="mkdir -pv" \
 	yt="yt-dlp -f 'bestvideo[height<=?720]+(bestaudio[format_note*=original]/bestaudio[format_note*=Default])/bestaudio/best' -o '%(title)s.%(ext)s' --embed-metadata -i" \
 	yta="yt -x -f bestaudio/best" \
-	yts="ytv -o '%(upload_date>%Y-%m-%d)s.%(title)s.%(ext)s' --embed-metadata -i" \
+	yts="yt -o '%(upload_date>%Y-%m-%d)s.%(title)s.%(ext)s' --embed-metadata -i" \
 	ytt="yt --skip-download --write-thumbnail" \
 	ytfzf="ytfzf  --pages=3 -t -l" \
 	ffmpeg="ffmpeg -hide_banner" \

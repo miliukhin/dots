@@ -45,3 +45,6 @@ user_pref("identity.fxaccounts.enabled", false);
 
 // Fix the issue where right mouse button instantly clicks
 user_pref("ui.context_menus.after_mouseup", true);
+
+// Always download to Downloads
+user_pref("browser.download.useDownloadDir", true);

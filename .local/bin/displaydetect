@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# Get all possible displays
+allposs=$(xrandr -q | grep "connected")
+
+# Get all connected external screens and pick the first.
+screen=$(echo "$allposs" | awk '/ connected/ {print $1}' | grep -E '(VGA|HDMI|DP)' | head -n1)
+
+xrandr --output "$screen" --auto --scale 1.0x1.0 $(echo "$allposs" | grep -v "\b$screen" | awk '{print "--output", $1, "--off"}' | paste -sd ' ' -)
