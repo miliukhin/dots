@@ -54,9 +54,9 @@ case "$ext" in
 				-V urlcolor:blue \
 				-V fontenc=T2A \
 				-V mainfont="Liberation Sans" \
-				-V monofont="Iosevka Fixed Curly" \
+				-V monofont="Liberation Mono" \
 				-V linkcolor:gray \
-				-V lang=uk-UA -o "$base".pdf "$file"
+				-o "$base".pdf "$file"
 
 			elif [ "$type" = "xelatex" ]; then
 			pandoc -f markdown \
@@ -94,7 +94,7 @@ case "$ext" in
 	org) emacs "$file" --batch -u "$USER" -f org-latex-export-to-pdf ;;
 	pas) fpc "$file" -o"$base" && "$base" ;;
 	php) php -n -f "$file" ;; # <++>
-	puml|plantuml) plantuml -tpng "$file" ;;
+	puml|plantuml) plantuml -tsvg "$file" && rsvg-convert -f pdf -o "$base".pdf "$base".svg ;;
 	gnuplot|plt) gnuplot -p "$file" > "$base".pdf ;;
 	py) python "$file" ;;
 	r) Rscript "$file" ;;
