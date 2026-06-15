@@ -48,3 +48,6 @@ user_pref("ui.context_menus.after_mouseup", true);
 
 // Always download to Downloads
 user_pref("browser.download.useDownloadDir", true);
+
+// Load previous session on start
+user_pref("browser.startup.page", 3);
