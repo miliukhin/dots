@@ -79,7 +79,7 @@ video() { ffmpeg \
 
 webcamhidef() { ffmpeg \
 	-f v4l2 \
-	-i /dev/video0 \
+	-i $(ls /dev/video[0,2,4,6,8] | tail -n 1) \
 	-video_size 1920x1080 \
 	"$HOME/webcam-$(date '+%y%m%d-%H%M-%S').mkv" &
 	echo $! > /tmp/recordingpid
