@@ -55,6 +55,8 @@ getYoutubeRss() {
 	esac
 	echo "$feed"
 	echo "$feed" | sed 's|channel_id=UC|playlist_id=UULF|g' | sed 's|$| # No Shorts|'
+	echo "$feed" | sed 's|channel_id=UC|playlist_id=UUSH|g' | sed 's|$| # Only Shorts|'
+	echo "$feed" | sed 's|channel_id=UC|playlist_id=UULV|g' | sed 's|$| # Only Live Streams|'
 }
 
 getTelegramRss() {
@@ -125,7 +127,7 @@ else
 	list="$(getlink "$url")"
 fi
 
-[ "$(echo "$list" | wc -l)" -eq 1 ] && chosen_link="$list" || chosen_link=$(printf '%s\n' "${list[@]}" | dmenu -p "Choose a feed:")
+[ "$(echo "$list" | wc -l)" -eq 1 ] && chosen_link="$list" || chosen_link=$(printf '%s\n' "${list[@]}" | dmenu -l 5 -p "Choose a feed:")
 tags="$2"
 ifinstalled rssadd && rssadd "$chosen_link" "$tags"
 echo "$chosen_link" "$tags"
