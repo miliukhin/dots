@@ -47,6 +47,7 @@ alias \
 	grep="grep --color=auto" \
 	diff="diff --color=auto" \
 	ccat="highlight --out-format=ansi" \
+	ncdu="ncdu --color dark -e" \
 	ip="ip -color=auto"
 
 # These common commands are just too long! Abbreviate them.

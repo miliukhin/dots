@@ -75,6 +75,7 @@ export _JAVA_AWT_WM_NONREPARENTING=1 # Fix for Java applications in dwm
 
 export QT_AUTO_SCREEN_SCALE_FACTOR=0
 export QT_ENABLE_HIGHDPI_SCALING=0
+export NCDU_SHELL='lfub'
 
 [ ! -f ${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc ] && setsid shortcuts >/dev/null 2>&1
 
