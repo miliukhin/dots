@@ -54,6 +54,7 @@ getYoutubeRss() {
 			rm tmp_rssget_yt ;;
 	esac
 	echo "$feed"
+	echo "$feed" | sed 's|channel_id=UC|playlist_id=UULF|g' | sed 's|$| # No Shorts|'
 }
 
 getTelegramRss() {
