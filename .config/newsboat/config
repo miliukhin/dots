@@ -55,3 +55,4 @@ highlight article ":.*\\(image\\)$" blue default
 highlight article ":.*\\(embedded flash\\)$" magenta default
 
 bookmark-cmd "bm-newsboat"
+text-width 72
