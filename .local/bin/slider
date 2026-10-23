@@ -118,9 +118,9 @@ duration ${endtime:-5}
 file '$base'"
 } > "$prepfile"
 if [ -n "${audio+x}" ]; then
-	ffmpeg -hide_banner -y -f concat -safe 0 -i "$prepfile" -i "$audio" -c:a aac -vsync vfr -c:v libx264 -pix_fmt yuv420p "$outfile"
+	ffmpeg -hide_banner -y -f concat -safe 0 -i "$prepfile" -i "$audio" -c:a aac -c:v libx264 -pix_fmt yuv420p "$outfile"
 else
-	ffmpeg -hide_banner -y -f concat -safe 0 -i "$prepfile" -vsync vfr -c:v libx264 -pix_fmt yuv420p "$outfile"
+	ffmpeg -hide_banner -y -f concat -safe 0 -i "$prepfile" -c:v libx264 -pix_fmt yuv420p "$outfile"
 fi
 
 [ -n "${unify+x}" ] && ffmpeg -i "$outfile" -vf "fps=24" -c:v libx264 -preset ultrafast -c:a copy "${outfile}_fixedfps.mp4" && rm "$outfile" && mv "${outfile}_fixedfps.mp4" "$outfile"
